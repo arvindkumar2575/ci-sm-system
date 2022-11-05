@@ -36,6 +36,23 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('/portfolio', 'Home::portfolio');
+
+$routes->group("manage", function($routes){
+    $routes->get('', 'Manage::login');
+    $routes->get('login', 'Manage::login');
+    $routes->get('logout', 'Manage::logout');
+    $routes->get('register', 'Manage::register');
+    $routes->get('forget-password', 'Manage::forgetPassword');
+
+    $routes->get('(:num)', 'Manage::dashboard');
+    $routes->get('dashboard', 'Manage::dashboard');
+    $routes->get('(:num)/dashboard', 'Manage::dashboard');
+
+
+    
+    $routes->get('auth', 'Manage::authenticate');
+});
 
 /*
  * --------------------------------------------------------------------

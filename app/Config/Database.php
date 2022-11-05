@@ -33,9 +33,9 @@ class Database extends Config
     public $default = [
         'DSN'      => '',
         'hostname' => 'localhost',
-        'username' => '',
-        'password' => '',
-        'database' => '',
+        'username' => 'arvind',
+        'password' => 'Devil@12345',
+        'database' => 'tbl_sms_data',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
