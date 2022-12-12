@@ -1,0 +1,7 @@
+.full-w-h{
+    height: 100vh;
+}
+
+.sidebar .nav-item .nav-link{
+    padding: 0.5rem 1rem;
+}

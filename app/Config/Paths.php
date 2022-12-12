@@ -82,4 +82,12 @@ class Paths
      * @var string
      */
     public $viewDirectory = __DIR__ . '/../Views';
+
+    /**
+     * ---------------------------------------------------------------
+     * ASSETS DIRECTORY NAME
+     * ---------------------------------------------------------------
+     *
+     * */
+    public $assetsDirectory = __DIR__ . '/../../assets';
 }
