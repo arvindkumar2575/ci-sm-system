@@ -12,7 +12,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user" id="2-register-form" method="post" action="<?= manageURL('authenticate') ?>">
+                            <form class="user" id="2-register-form" method="post" >
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="first_name" name="first_name" placeholder="First Name">
@@ -50,7 +50,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <input type="hidden" name="form_type" value="register"/>
+                                <input type="hidden" name="form_type" value="<?= $form_type ?>"/>
                                 <button type="submit" class="btn btn-primary btn-user btn-block register-form-btn-submit">
                                     Register Account
                                 </button>

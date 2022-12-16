@@ -48,7 +48,7 @@ class Manage extends BaseController
         }else{
             $data = array();
             $data['title'] = 'Register';
-            $data["form_type"] = "resgister";
+            $data["form_type"] = "register";
             $data['gender_details'] = $this->userModel->getGenderDetails();
             $data['user_types'] = $this->userModel->getUserTypes();
             return view('manage/login/register',$data);
@@ -107,6 +107,7 @@ class Manage extends BaseController
                 return json_encode($result);
             }
         }else if($form_type=="register"){
+            // echo '<pre>';print_r($this->request);die;
             $first_name = $this->request->getVar('first_name');
             $last_name = $this->request->getVar('last_name');
             $gender_id = $this->request->getVar('gender_id');
@@ -124,6 +125,7 @@ class Manage extends BaseController
                 return json_encode($result);
             }
             // echo $isEmailExit;die();
+            // echo '<pre>';print_r($isEmailExit);die;
             if(!$isEmailExit){
                 $user_id = $this->signUpData($email,$hashPass,$user_type,$first_name,$last_name,$gender_id,$details);
                 if($user_id){

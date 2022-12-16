@@ -197,7 +197,7 @@
 
 <!-- HEADER: MENU + HEROE SECTION -->
 <header>
-
+        <?= ENVIRONMENT ?>
     <div class="menu">
         <ul>
             <li class="logo">

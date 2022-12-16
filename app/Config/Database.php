@@ -32,10 +32,10 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => 'arvind',
-        'password' => 'Devil@12345',
-        'database' => 'tbl_sms_data',
+        'hostname' => '',
+        'username' => '',
+        'password' => '',
+        'database' => '',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -86,6 +86,11 @@ class Database extends Config
         // we don't overwrite live data on accident.
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
+        }else if(ENVIRONMENT==='development'){
+            $this->default['hostname'] = $_SERVER['DEV_DB_HOSTNAME'];
+            $this->default['username'] = $_SERVER['DEV_DB_USERNAME'];
+            $this->default['password'] = $_SERVER['DEV_DB_PASSWORD'];
+            $this->default['database'] = $_SERVER['DEV_DB_DATABASE'];
         }
     }
 }

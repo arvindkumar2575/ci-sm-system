@@ -50,8 +50,8 @@ $routes->group("manage", function($routes){
     $routes->get('(:num)/dashboard', 'Manage::dashboard');
 
 
-    
     $routes->get('auth', 'Manage::authenticate');
+    $routes->post('auth', 'Manage::authenticate');
 });
 
 /*
