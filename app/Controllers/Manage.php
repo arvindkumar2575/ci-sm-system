@@ -23,9 +23,9 @@ class Manage extends BaseController
     
     public function login()
     {
-        $userId = checkSessionUserId();
+        // $userId = checkSessionUserId();
         if(checkSession()){
-            return redirect()->to('manage/'.$userId.'/dashboard');
+            return redirect()->to('manage/dashboard');
         }else{
             $data = array();
             $data['title'] = 'Log In';
@@ -42,9 +42,9 @@ class Manage extends BaseController
 
     public function register()
     {
-        $userId = checkSessionUserId();
+        // $userId = checkSessionUserId();
         if(checkSession()){
-            return redirect()->to('manage/'.$userId.'/dashboard');
+            return redirect()->to('manage/dashboard');
         }else{
             $data = array();
             $data['title'] = 'Register';
@@ -57,9 +57,9 @@ class Manage extends BaseController
 
     public function forgetPassword()
     {
-        $userId = checkSessionUserId();
+        // $userId = checkSessionUserId();
         if(checkSession()){
-            return redirect()->to('manage/'.$userId.'/dashboard');
+            return redirect()->to('manage/dashboard');
         }else{
             $data = array();
             $data['title'] = 'Forget Password';
@@ -73,6 +73,8 @@ class Manage extends BaseController
         if(checkSession()){
             $data = array();
             $data['title'] = 'Dashboard';
+            $data['heading_title'] = 'Dashboard';
+            $data['menu_active'] = 'dashboard';
             return view('manage/dashboard/dashboard',$data);
         }else{
            return redirect()->to('manage');
@@ -115,7 +117,7 @@ class Manage extends BaseController
             $password = $this->request->getVar('password');
             $user_type = $this->request->getVar('user_type');
             $details = $this->request->getVar('details');
-            $hashPass = password_hash($password,PASSWORD_BCRYPT);
+            // $hashPass = password_hash($password,PASSWORD_BCRYPT);
             
             $isEmailExit=0;
             if(!empty($user_type)){
@@ -124,10 +126,9 @@ class Manage extends BaseController
                 $result = array('status'=>false,'message'=>'Select User Type!');
                 return json_encode($result);
             }
-            // echo $isEmailExit;die();
-            // echo '<pre>';print_r($isEmailExit);die;
+            // echo 'isEmailExit';die();
             if(!$isEmailExit){
-                $user_id = $this->signUpData($email,$hashPass,$user_type,$first_name,$last_name,$gender_id,$details);
+                $user_id = $this->signUpData($email,$password,$user_type,$first_name,$last_name,$gender_id,$details);
                 if($user_id){
                     $result = array('status'=>true,'message'=>'Successfully Register!','id'=>$user_id);
                     return json_encode($result);

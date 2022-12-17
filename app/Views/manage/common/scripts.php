@@ -1,5 +1,6 @@
 <script>
     let manageURL = "<?= manageURL()?>"
+    let manageURLAPI = "<?= manageURL('api')?>"
 </script>
 
 

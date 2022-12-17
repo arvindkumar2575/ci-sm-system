@@ -49,9 +49,16 @@ $routes->group("manage", function($routes){
     $routes->get('dashboard', 'Manage::dashboard');
     $routes->get('(:num)/dashboard', 'Manage::dashboard');
 
+    $routes->get('users', 'Users::index');
+    $routes->get('add-user', 'Users::addUser');
 
-    $routes->get('auth', 'Manage::authenticate');
-    $routes->post('auth', 'Manage::authenticate');
+
+    
+});
+
+$routes->group("manage/api", function($routes){
+    $routes->match(['get', 'post'], 'auth', 'Manage::authenticate');
+    $routes->post('add-user', 'APIController::addUser');
 });
 
 /*

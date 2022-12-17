@@ -1,7 +1,48 @@
-.full-w-h{
+.full-w-h {
     height: 100vh;
 }
 
-.sidebar .nav-item .nav-link{
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    overflow-y: auto;
+    transition: 0.5s;
+    z-index: 999;
+}
+
+.sidebar .nav-item .nav-link {
     padding: 0.5rem 1rem;
+}
+
+.sidebar-menu {
+    overflow-y: auto;
+}
+
+
+
+#content-wrapper {
+    margin-left: 250px;
+    min-height: 100vh;
+}
+
+
+
+.add-user-form label {
+    margin-bottom: 0;
+    margin-left: 5px;
+    font-size: 0.9rem;
+}
+
+.submit-btns {
+    margin: 15px 0;
+}
+
+table thead tr:first-child {
+    background-color: #1d1e1e;
+}
+table tr:nth-child(even) {
+    background-color: #D6EEEE;
 }
