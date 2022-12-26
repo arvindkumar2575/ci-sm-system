@@ -7,6 +7,7 @@
 
 <!-- Bootstrap core JavaScript-->
 <script src="<?= base_url('assets/js/jquery/jquery.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/jquery/jquery-ui.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/bootstrap/bootstrap.bundle.min.js') ?>"></script>
 
 <!-- Core plugin JavaScript-->

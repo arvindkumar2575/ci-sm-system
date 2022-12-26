@@ -15,37 +15,40 @@
         <table class="table">
             <thead>
                 <tr>
-                <th>Company</th>
-                <th>Contact</th>
-                <th>Country</th>
+                    <th>S.No.</th>
+                    <th>Email Id</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-            </tr>
-            <tr>
-                <td>Centro comercial Moctezuma</td>
-                <td>Francisco Chang</td>
-                <td>Mexico</td>
-            </tr>
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-            </tr>
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-            </tr>
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-            </tr>
+                <?php
+                foreach ($users as $key => $value) {
+                ?>
+                    <tr>
+                        <td><?=($key+1)?></td>
+                        <td><?=$value['email']?></td>
+                        <td><?=$value['first_name'].' '.$value['last_name']?></td>
+                        <td>
+                            <?php
+                            $status='';
+                            if($value['status']==1){
+                                $status='Active';
+                            }else{
+                                $status='InActive';
+                            }
+                            ?>
+                            <?=$status?>
+                        </td>
+                        <td>
+                            <button class="btn btn-success table-btn-edit" type="button" data-id="<?=$value['id']?>">Edit</button>
+                            <button class="btn btn-danger table-btn-delete" type="button" data-id="<?=$value['id']?>">Delete</button>
+                        </td>
+                    </tr>
+                <?php
+                }
+                ?>
             </tbody>
         </table>
     </div>

@@ -11,19 +11,41 @@
         <div class="form-group col-md-6">
             <label for="user_type">User Type</label>
             <select id="user_type" class="form-control" name="user_type">
-                <option value="" selected>Select User Type</option>
-                <?php foreach ($user_types as $key => $value) { ?>
-                    <option value="<?= $value['id'] ?>"><?= $value['display_name'] ?></option>
-                <?php } ?>
+                <?php
+                $selected = 'selected';
+                $selected_val = 0;
+                if (isset($user['user_type']) && !empty($user['user_type']) && is_numeric($user['user_type'])) {
+                    $selected_val = $user['user_type'];
+                }
+                ?>
+                <option value="" <?= ($selected_val == 0) ? $selected : '' ?>>Select User Type</option>
+                <?php
+                foreach ($user_types as $key => $value) {
+                ?>
+                    <option value="<?= $value['id'] ?>" <?= ($selected_val == $value['id']) ? $selected : '' ?>><?= $value['display_name'] ?></option>
+                <?php
+                }
+                ?>
             </select>
         </div>
         <div class="form-group col-md-6">
             <label for="gender_id">Gender</label>
             <select id="gender_id" class="form-control" name="gender_id">
-                <option value="" selected>Select Gender</option>
-                <?php foreach ($gender_details as $key => $value) { ?>
-                    <option value="<?= $value['id'] ?>"><?= $value['display_name'] ?></option>
-                <?php } ?>
+                <?php
+                $selected = 'selected';
+                $selected_val = 0;
+                if (isset($user['gender_id']) && !empty($user['gender_id']) && is_numeric($user['gender_id'])) {
+                    $selected_val = $user['gender_id'];
+                }
+                ?>
+                <option value="" <?= ($selected_val == 0) ? $selected : '' ?>>Select Gender</option>
+                <?php
+                foreach ($gender_details as $key => $value) {
+                ?>
+                    <option value="<?= $value['id'] ?>" <?= ($selected_val == $value['id']) ? $selected : '' ?>><?= $value['display_name'] ?></option>
+                <?php
+                }
+                ?>
             </select>
         </div>
         <div class="form-group col-md-6">
@@ -45,18 +67,32 @@
         <div class="form-group col-md-3">
             <label for="verified">Verification</label>
             <select id="verified" class="form-control" name="verified">
-                <option value="0" selected>Not-Verified</option>
-                <option value="1">Verified</option>
+                <?php
+                $selected = 'selected';
+                $selected_val = 0;
+                if (isset($user['verified']) && !empty($user['verified']) && is_numeric($user['verified'])) {
+                    $selected_val = $user['verified'];
+                }
+                ?>
+                <option value="0" <?= $selected_val == '0' ? $selected : '' ?>>Not-Verified</option>
+                <option value="1" <?= $selected_val == '1' ? $selected : '' ?>>Verified</option>
             </select>
         </div>
         <div class="form-group col-md-3">
             <label for="status">Status</label>
             <select id="status" class="form-control" name="status">
-                <option value="1" selected>Active</option>
-                <option value="0">InActive</option>
+                <?php
+                $selected = 'selected';
+                $selected_val = 0;
+                if (isset($user['status']) && !empty($user['status']) && is_numeric($user['status'])) {
+                    $selected_val = $user['status'];
+                }
+                ?>
+                <option value="1" <?= $selected_val == '1' ? $selected : '' ?>>Active</option>
+                <option value="0" <?= $selected_val == '0' ? $selected : '' ?>>InActive</option>
             </select>
         </div>
-        <input type="hidden" name="form_type" value="ADD_USER"/>
+        <input type="hidden" name="form_type" value="ADD_USER" />
         <div class="col-md-12 submit-btns">
             <?php
             $btn_class = '';
@@ -66,7 +102,9 @@
                 $btn_class = 'primary';
             }
             ?>
-            <button type="submit" class="btn btn-<?= $btn_class ?>"><?=ucwords($form_btn)?></button>
+            <button type="submit" class="btn btn-<?= $btn_class ?>" data-btn="<?= $form_btn ?>">
+                <?= ucwords($form_btn) ?>
+            </button>
             <button type="reset" class="btn btn-danger">Reset</button>
         </div>
     </div>

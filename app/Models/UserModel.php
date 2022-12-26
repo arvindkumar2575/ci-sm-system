@@ -17,11 +17,25 @@ class UserModel extends Model
         return $result;
     }
 
-    public function getUserDetails($id)
+    public function getUsers()
     {
-        $sql = 'SELECT * FROM tbl_user WHERE id=$id';
+        $sql = 'SELECT * FROM tbl_user';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function getUserDetails($id)
+    {
+        $result=array();
+        try {
+            $sql = 'SELECT id,user_type,email,verified,first_name,last_name,gender_id,status,created_at,modified_at,deleted FROM tbl_user WHERE id='.$id.'';
+            $query = $this->db->query($sql);
+            $result = $query->getRowArray();
+            return $result;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         return $result;
     }
 

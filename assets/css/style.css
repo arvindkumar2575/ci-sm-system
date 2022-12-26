@@ -40,9 +40,16 @@
     margin: 15px 0;
 }
 
-table thead tr:first-child {
-    background-color: #1d1e1e;
+table thead  {
+    background-color: #5a5c69;
+    color: #fff;
 }
-table tr:nth-child(even) {
+table tbody tr:nth-child(even) {
     background-color: #D6EEEE;
+}
+table tbody td{
+    color: #1d1e1e;
+}
+table tr button.btn{
+    padding: 2px 5px;
 }

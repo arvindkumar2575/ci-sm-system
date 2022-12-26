@@ -10,3 +10,14 @@ if (!function_exists("manageURL")) {
         }
     }
 }
+
+if (!function_exists("issetnotempty")) {
+    function issetnotempty($str=null)
+    {
+        if(isset($str) && !empty($str)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}

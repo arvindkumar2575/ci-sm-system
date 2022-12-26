@@ -51,6 +51,7 @@ $routes->group("manage", function($routes){
 
     $routes->get('users', 'Users::index');
     $routes->get('add-user', 'Users::addUser');
+    $routes->get('edit-user', 'Users::editUser');
 
 
     
@@ -59,6 +60,8 @@ $routes->group("manage", function($routes){
 $routes->group("manage/api", function($routes){
     $routes->match(['get', 'post'], 'auth', 'Manage::authenticate');
     $routes->post('add-user', 'APIController::addUser');
+    $routes->post('edit-user', 'APIController::editUser');
+    $routes->post('delete-user', 'APIController::deleteUser');
 });
 
 /*
