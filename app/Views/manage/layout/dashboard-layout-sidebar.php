@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3"><?= SMSYSTEMNAME ?></div>
+        <div class="sidebar-brand-text mx-2"><?= SMSYSTEMNAME ?></div>
     </a>
 
     <div class="sidebar-menu">
@@ -15,36 +15,38 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item-head">
                 <a class="nav-link" href="<?= manageURL('dashboard') ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
 
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider my-0">
             <!-- Divider -->
 
 
 
 
             <div class="sidebar-module">
-                <div class="sidebar-heading">
+                <div class="sidebar-heading p-2 nav-item-head">
                     Users
                 </div>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('users') ?>">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Users</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('add-user') ?>">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Add User</span></a>
-                </li>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= manageURL('users') ?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Users</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= manageURL('add-user') ?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Add User</span></a>
+                    </li>
+                </ul>
             </div>
 
             <div class="sidebar-module">
-                <div class="sidebar-heading">
+                <div class="sidebar-heading p-2 nav-item-head">
                     Students
                 </div>
                 <li class="nav-item">
@@ -60,7 +62,7 @@
             </div>
 
             <div class="sidebar-module">
-                <div class="sidebar-heading">
+                <div class="sidebar-heading p-2 nav-item-head">
                     Teachers
                 </div>
                 <li class="nav-item">
@@ -76,7 +78,7 @@
             </div>
 
             <div class="sidebar-module">
-                <div class="sidebar-heading">
+                <div class="sidebar-heading p-2 nav-item-head">
                     Staffs
                 </div>
                 <li class="nav-item">
@@ -90,6 +92,7 @@
                         <span>Add Staff</span></a>
                 </li>
             </div>
+            
 
         </div>
     </div>

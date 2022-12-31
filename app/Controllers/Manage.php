@@ -87,7 +87,7 @@ class Manage extends BaseController
         if($form_type=="login"){
             $email = $this->request->getVar('username');
             $password = $this->request->getVar('password');
-            $data = $this->common->get_single_row("tbl_user","email",$email);
+            $data = $this->common->get_single_row("tbl_user",array('email'=>$email),array());
             // echo '<pre>';print_r($data);die;
             if($data){
                 $pass = $data['password'];

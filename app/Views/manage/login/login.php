@@ -1,21 +1,20 @@
 <?= view('manage/common/head') ?>
-<div class="bg-gradient-primary full-w-h">
+<div class="bg-gradient-primary login-page">
     <div class="container">
 
         <!-- Outer Row -->
-        <div class="row justify-content-center">
+        <div class="row justify-content-center main-div">
 
             <div class="col-xl-10 col-lg-12 col-md-9">
 
-                <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card o-hidden border-0 shadow-lg">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"><i class="fa-solid fa-users-gear"></i></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
+                            <div class="col-lg-12">
+                                <div class="main-div-form p-4">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 font-weight-bold mb-4">SM SYSTEM !</h1>
                                     </div>
                                     <form class="user" id="1-login-form" method="get" action="<?= manageURL('authenticate') ?>">
                                         <div class="form-group">

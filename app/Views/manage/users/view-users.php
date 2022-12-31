@@ -42,8 +42,8 @@
                             <?=$status?>
                         </td>
                         <td>
-                            <button class="btn btn-success table-btn-edit" type="button" data-id="<?=$value['id']?>">Edit</button>
-                            <button class="btn btn-danger table-btn-delete" type="button" data-id="<?=$value['id']?>">Delete</button>
+                            <button class="btn btn-success table-btn-edit" type="button" data-id="<?=$value['id']?>"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger table-btn-delete" type="button" data-id="<?=$value['id']?>"><i class="fas fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 <?php

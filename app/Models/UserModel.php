@@ -39,6 +39,19 @@ class UserModel extends Model
         return $result;
     }
 
+    public function deleteUser($id)
+    {
+        $query=false;
+        try {
+            $sql = 'UPDATE tbl_user SET deleted = "1" WHERE id = '.$id.'';
+            $query = $this->db->query($sql);
+            return $query;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return $query;
+    }
+
     public function getGenderDetails()
     {
         $sql = 'SELECT * FROM tbl_gender';

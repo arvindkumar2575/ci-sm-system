@@ -2,6 +2,7 @@ let common = {};
 let validation = {};
 let cookie = {};
 let user = {};
+let urlParams = new URLSearchParams(window.location.search);
 
 common.ajaxCall = (url,type,data,onSucces,onError,onComplete)=>{
     let r = {}
@@ -17,6 +18,16 @@ common.ajaxCall = (url,type,data,onSucces,onError,onComplete)=>{
     $.ajax(r)
 }
 
+common.popup_error = (message)=>{
+    let espace = $('#spr')
+    let error = message
+    espace.find('.popup-title').html(error)
+    espace.show()
+    setTimeout(() => {
+        espace.hide()
+    }, 2000);
+}
+
 
 
 
@@ -24,21 +35,21 @@ common.ajaxCall = (url,type,data,onSucces,onError,onComplete)=>{
 // validation 
 validation.email = (email)=>{
     var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if(email==null && email==undefined){
-        return false;
+    if(email==null || email==undefined || email==''){
+        return 'Required email address!';
     }else if(email.match(emailRegex)){
         return true;
     }else{
-        return false;
+        return 'Required valid email!';
     }
 }
 validation.password = (password)=>{
-    if(password==null && password==undefined){
-        return false;
+    if(password==null || password==undefined || password==''){
+        return 'Required password';
     }else if(password.length>8 && password.length<20){
         return true;
     }else{
-        return false;
+        return 'Password must be of length 8 to 20.';
     }
 },
 validation.text = (text,len=null)=>{
@@ -68,6 +79,115 @@ cookie.setCookie = (cName, cValue, expDays)=> {
     const expires = "expires=" + date.toUTCString();
     document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
 }
+
+
+
+
+user.login = ()=>{
+    let url = manageURLAPI + '/auth'
+    let data = {}
+    data.username = $("input[name=email]").val();
+    data.password = $("input[name=password]").val();
+    data.form_type = $("input[name=form_type]").val();
+    let remember = $("input[name=remember_me]").is(':checked');
+    let emailValidator = validation.email(data.username);
+    let passwordValidator = validation.password(data.password);
+    // console.log(data,emailValidator,passwordValidator)
+    if (emailValidator == true && passwordValidator == true) {
+        common.ajaxCall(url, "GET", data, (res) => {
+            if (res.status && res.id != undefined && res.id != null) {
+                window.location.href = manageURL + '/dashboard'
+            } else {
+                common.popup_error(res.message)
+            }
+        }, (err) => {
+            console.log(err)
+        })
+    } else {
+        let message = (emailValidator != true) ? emailValidator : passwordValidator
+        common.popup_error(message)
+    }
+}
+user.register = ()=>{
+    let url = manageURLAPI + '/auth'
+    let data = {}
+
+    let first_name_elm = $('input[name=first_name]')
+    if (first_name_elm.val() == "") {
+        first_name_elm.addClass("field-focus-error")
+        common.popup_error('First Name is required!')
+        return false;
+    }
+    data.first_name = first_name_elm.val()
+
+    let last_name_elm = $('input[name=last_name]')
+    if (last_name_elm.val() == "") {
+        last_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.last_name = last_name_elm.val()
+
+    let email_elm = $('input[name=email]')
+    if (email_elm.val() == "") {
+        email_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.email = email_elm.val()
+
+    let password_elm = $('input[name=password]')
+    if (password_elm.val() == "") {
+        password_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.password = password_elm.val()
+
+    let password_repeat_elm = $('input[name=password_repeat]')
+    if (password_repeat_elm.val() == "") {
+        password_repeat_elm.addClass("field-focus-error")
+        return false;
+    }
+    if (data.password != password_repeat_elm.val()) {
+        return false;
+    }
+
+    let gender_id_elm = $('select[name=gender_id]')
+    if (gender_id_elm.val() == "") {
+        gender_id_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.gender_id = gender_id_elm.val()
+
+    let user_type_elm = $('select[name=user_type]')
+    if (user_type_elm.val() == "") {
+        user_type_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.user_type = user_type_elm.val()
+
+    let remember = $("input[name=remember_me]").is(':checked');
+    let emailValidator = validation.email(data.email);
+    let passwordValidator = validation.password(data.password);
+    data.form_type = $("input[name=form_type]").val();
+    data.details = JSON.stringify(data);
+    // console.log(data,emailValidator,passwordValidator)
+    if (emailValidator && passwordValidator) {
+        common.ajaxCall(url, "POST", data, (res) => {
+            if (res.status && res.id != undefined && res.id != null) {
+                window.location.href = manageURL + '/dashboard'
+            }else{
+                common.popup_error(res.message)
+            }
+        }, (err) => {
+            console.log(err)
+        })
+    }else{
+        let message = (emailValidator != true) ? emailValidator : passwordValidator
+        common.popup_error(message)
+    }
+}
+
+
+
 
 user.add = ()=>{
     let url = manageURLAPI + '/add-user'
@@ -136,6 +256,62 @@ user.edit = (id)=>{
     // alert("edit")
     window.location.href = manageURL+'/edit-user?uid='+id
 }
+user.save = (id)=>{
+    // alert("save")
+    let url = manageURLAPI + '/edit-user'
+    let data = {}
+
+    let user_type_elm = $('select[name=user_type]')
+    if (user_type_elm.val() == "") {
+        user_type_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.user_type = user_type_elm.val()
+
+    let gender_id_elm = $('select[name=gender_id]')
+    if (gender_id_elm.val() == "") {
+        gender_id_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.gender_id = gender_id_elm.val()
+
+    let email_elm = $('input[name=email]')
+    if (email_elm.val() == "") {
+        email_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.email = email_elm.val()
+
+    let first_name_elm = $('input[name=first_name]')
+    if (first_name_elm.val() == "") {
+        first_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.first_name = first_name_elm.val()
+
+    let last_name_elm = $('input[name=last_name]')
+    if (last_name_elm.val() == "") {
+        last_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.last_name = last_name_elm.val()
+
+    data.verified = $("select[name=verified]").val()
+    data.status = $("select[name=status]").val()
+    let emailValidator = validation.email(data.email);
+    data.form_type = $("input[name=form_type]").val();
+    data.id = urlParams.get('uid')
+    // console.log(data,emailValidator,passwordValidator)
+    if (emailValidator) {
+        common.ajaxCall(url, "POST", data, (res) => {
+            if (res.status && res.id != undefined && res.id != null) {
+                window.location.href = manageURL + '/users'
+            }
+        }, (err) => {
+            console.log(err)
+        })
+    }
+}
 user.delete = (id)=>{
     let url = manageURLAPI + '/delete-user'
     let data = {
@@ -146,5 +322,4 @@ user.delete = (id)=>{
             window.location.href = manageURL + '/users'
         }
     })
-    alert("delete"+id)
 }

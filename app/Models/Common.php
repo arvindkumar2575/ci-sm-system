@@ -21,21 +21,27 @@ class Common extends Model
         
     }
 
-    public function data_single_update($table=null, $key=null, $value=null)
+    public function data_single_update($table=null, array $where=array(), array $data=array())
     {
-        $update=null;
+        $query=false;
         if(isset($table)){
-            $query = $this->db->table($table)->where($key,$value);
+            $query = $this->db->table($table)->update($data,$where);
+            // echo $this->db->lastQuery;die();
         }
-        return $update;
+        return $query;
+        
     }
 
-    public function get_single_row($table=null, $key=null, $value=null)
+    public function get_single_row($table=null, array $where=array(), array $select=array())
     {
         $result=null;
+        if($select>0){
+            $select=implode('","',$select);
+        }else{
+            $select='*';
+        }
         if(isset($table)){
-            $query = $this->db->table($table)->where($key,$value)->get();
-            // echo $this->db->lastQuery;die();
+            $query = $this->db->table($table)->select($select)->where($where)->get();
             $result = $query->getRowArray();
             // echo var_dump($result);die();
         }
