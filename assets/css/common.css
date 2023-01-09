@@ -67,6 +67,13 @@
     font-size: 14px;
 }
 
+.field-focus-error{
+    border: 1px solid #f00;
+    box-shadow: 0 0 0.1rem 0.25rem #f00
+}
+
+
+
 
 
 .sidebar-brand{
@@ -135,4 +142,32 @@ select.form-control-user {
 .btn-facebook {
     background-color: #1876f1;
     color: #fff;
+}
+
+
+.table-tree{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.table-tree table{
+    
+}
+
+
+
+
+form{
+    margin-top: 10px;
+}
+.form-search-btn{
+    display: flex;
+    align-items: flex-end;
+}
+.filter-form{
+    background-color: #dee2e6;
+    padding: 15px 10px;
+    border-radius: 4px;
+}
+.filter-form label{
+    font-weight: 500;
 }

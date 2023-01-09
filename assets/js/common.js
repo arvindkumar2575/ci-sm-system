@@ -2,6 +2,9 @@ let common = {};
 let validation = {};
 let cookie = {};
 let user = {};
+let role = {};
+let permission = {};
+let menu = {};
 let urlParams = new URLSearchParams(window.location.search);
 
 common.ajaxCall = (url,type,data,onSucces,onError,onComplete)=>{
@@ -53,9 +56,9 @@ validation.password = (password)=>{
     }
 },
 validation.text = (text,len=null)=>{
-    if(text==null && text==undefined){
+    if(text==null || text==undefined || text==''){
         return false;
-    }else if(text!="" && text.length>=len){
+    }else if(text.length>=len){
         return true;
     }else{
         return false;
@@ -79,6 +82,10 @@ cookie.setCookie = (cName, cValue, expDays)=> {
     const expires = "expires=" + date.toUTCString();
     document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
 }
+
+
+
+
 
 
 
@@ -320,6 +327,229 @@ user.delete = (id)=>{
     common.ajaxCall(url,"POST",data,()=>{
         if (res.status && res.id != undefined && res.id != null) {
             window.location.href = manageURL + '/users'
+        }
+    })
+}
+
+
+
+// roles 
+role.add = ()=>{
+    let url = manageURLAPI + '/add-role'
+    let data = {}
+
+    let role_name_elm = $('input[name=name]')
+    if (role_name_elm.val() == "") {
+        role_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.name = role_name_elm.val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    data.parent = $('select[name=parent]').val()
+    data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/roles'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+role.edit = (id)=>{
+    window.location.href = manageURL+'/edit-role?id='+id
+}
+role.save = (id)=>{
+    let url = manageURLAPI + '/edit-role'
+    let data = {}
+
+    data.name = $('input[name=name]').val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    data.parent = $('select[name=parent]').val()
+    data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    data.id = urlParams.get('id')
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/roles'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+role.delete = (id)=>{
+    let url = manageURLAPI + '/delete-role'
+    let data = {
+        id:id
+    }
+    common.ajaxCall(url,"POST",data,(res)=>{
+        if (res.status) {
+            window.location.href = manageURL + '/roles'
+        }else{
+
+        }
+    })
+}
+
+
+
+// permissions 
+permission.add = ()=>{
+    let url = manageURLAPI + '/add-permission'
+    let data = {}
+
+    let permission_name_elm = $('input[name=name]')
+    if (permission_name_elm.val() == "") {
+        permission_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.name = permission_name_elm.val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    data.parent = $('select[name=parent]').val()
+    data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/permissions'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+permission.edit = (id)=>{
+    window.location.href = manageURL+'/edit-permission?id='+id
+}
+permission.save = (id)=>{
+    let url = manageURLAPI + '/edit-permission'
+    let data = {}
+
+    data.name = $('input[name=name]').val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    data.parent = $('select[name=parent]').val()
+    data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    data.id = urlParams.get('id')
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/permissions'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+permission.delete = (id)=>{
+    let url = manageURLAPI + '/delete-permission'
+    let data = {
+        id:id
+    }
+    common.ajaxCall(url,"POST",data,(res)=>{
+        if (res.status) {
+            window.location.href = manageURL + '/permissions'
+        }else{
+
+        }
+    })
+}
+
+
+
+
+// menu 
+menu.add = ()=>{
+    let url = manageURLAPI + '/add-menu'
+    let data = {}
+
+    let menu_name_elm = $('input[name=name]')
+    if (menu_name_elm.val() == "") {
+        menu_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.name = menu_name_elm.val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    data.parent = $('select[name=parent]').val()
+    data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/menu'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+menu.edit = (id)=>{
+    window.location.href = manageURL+'/edit-menu?id='+id
+}
+menu.save = (id)=>{
+    let url = manageURLAPI + '/edit-menu'
+    let data = {}
+
+    data.name = $('input[name=name]').val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    data.parent = $('select[name=parent]').val()
+    data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    data.id = urlParams.get('id')
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/menu'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+menu.delete = (id)=>{
+    let url = manageURLAPI + '/delete-menu'
+    let data = {
+        id:id
+    }
+    common.ajaxCall(url,"POST",data,(res)=>{
+        if (res.status) {
+            window.location.href = manageURL + '/menu'
+        }else{
+
         }
     })
 }

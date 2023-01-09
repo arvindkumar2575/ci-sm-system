@@ -38,6 +38,10 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 $routes->get('/portfolio', 'Home::portfolio');
 
+
+
+$routes->get('verification', 'Manage::verification');
+
 $routes->group("manage", function($routes){
     $routes->get('', 'Manage::login');
     $routes->get('login', 'Manage::login');
@@ -52,6 +56,20 @@ $routes->group("manage", function($routes){
     $routes->get('users', 'Users::index');
     $routes->get('add-user', 'Users::addUser');
     $routes->get('edit-user', 'Users::editUser');
+    $routes->get('user-permissions', 'Users::editUserPermissions');
+
+    $routes->get('permissions', 'Manage::permissions');
+    $routes->get('add-permission', 'Manage::addPermission');
+    $routes->get('edit-permission', 'Manage::editPermission');
+
+    $routes->get('roles', 'Manage::roles');
+    $routes->get('add-role', 'Manage::addRole');
+    $routes->get('edit-role', 'Manage::editRole');
+
+    $routes->get('menu', 'Manage::menu');
+    $routes->get('add-menu', 'Manage::addMenu');
+    $routes->get('edit-menu', 'Manage::editMenu');
+
 
 
     
@@ -62,6 +80,18 @@ $routes->group("manage/api", function($routes){
     $routes->post('add-user', 'APIController::addEditUser');
     $routes->post('edit-user', 'APIController::addEditUser');
     $routes->post('delete-user', 'APIController::deleteUser');
+    
+    $routes->post('add-role', 'APIController::addEditRole');
+    $routes->post('edit-role', 'APIController::addEditRole');
+    $routes->post('delete-role', 'APIController::deleteRole');
+
+    $routes->post('add-permission', 'APIController::addEditPermission');
+    $routes->post('edit-permission', 'APIController::addEditPermission');
+    $routes->post('delete-permission', 'APIController::deletePermission');
+
+    $routes->post('add-menu', 'APIController::addEditMenu');
+    $routes->post('edit-menu', 'APIController::addEditMenu');
+    $routes->post('delete-menu', 'APIController::deleteMenu');
 });
 
 /*

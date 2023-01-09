@@ -36,15 +36,102 @@ class Common extends Model
     {
         $result=null;
         if($select>0){
-            $select=implode('","',$select);
+            $select=''.implode(',',$select).'';
         }else{
             $select='*';
         }
+        // echo $select;die;
         if(isset($table)){
-            $query = $this->db->table($table)->select($select)->where($where)->get();
+            $query = $this->db->table($table)->where($where)->select($select)->get();
             $result = $query->getRowArray();
-            // echo var_dump($result);die();
+            // echo $this->db->lastQuery;die;
         }
+        return $result;
+    }
+
+
+    public function getAllPermissions()
+    {
+        $sql = 'SELECT * FROM tbl_permissions';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function getPermissionList()
+    {
+        $sql = 'SELECT id,display_name FROM tbl_permissions';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function getPermission($id)
+    {
+        $sql = 'SELECT * FROM tbl_permissions WHERE id='.$id.'';
+        $query = $this->db->query($sql);
+        $result = $query->getRowArray();
+        return $result;
+    }
+
+    public function getAllRoles()
+    {
+        $sql = 'SELECT * FROM tbl_roles';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function deleteRole($id)
+    {
+        $query=false;
+        try {
+            $sql = 'DELETE FROM tbl_roles WHERE id='.$id.'';
+            $query = $this->db->query($sql);
+            return $query;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return $query;
+    }
+
+    public function getRoleList()
+    {
+        $sql = 'SELECT id,display_name FROM tbl_roles';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function getRole($id)
+    {
+        $sql = 'SELECT * FROM tbl_roles WHERE id='.$id.'';
+        $query = $this->db->query($sql);
+        $result = $query->getRowArray();
+        return $result;
+    }
+
+    public function getAllMenu()
+    {
+        $sql = 'SELECT * FROM tbl_menu';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function getMenuList()
+    {
+        $sql = 'SELECT id,display_name FROM tbl_menu';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function getMenu($id)
+    {
+        $sql = 'SELECT * FROM tbl_menu WHERE id='.$id.'';
+        $query = $this->db->query($sql);
+        $result = $query->getRowArray();
         return $result;
     }
 }

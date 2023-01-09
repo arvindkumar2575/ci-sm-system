@@ -15,7 +15,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item-head">
+            <li class="nav-item-head px-2">
                 <a class="nav-link" href="<?= manageURL('dashboard') ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -26,9 +26,27 @@
 
 
 
+            <div class="sidebar-module">
+                <div class="sidebar-heading px-2 pt-2 nav-item-head">
+                    Menu
+                </div>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= manageURL('menu') ?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Menu</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= manageURL('add-menu') ?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Add Menu</span></a>
+                    </li>
+                </ul>
+            </div>
+
 
             <div class="sidebar-module">
-                <div class="sidebar-heading p-2 nav-item-head">
+                <div class="sidebar-heading px-2 pt-2 nav-item-head">
                     Users
                 </div>
                 <ul>
@@ -42,56 +60,46 @@
                             <i class="fas fa-fw fa-chart-area"></i>
                             <span>Add User</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= manageURL('user-permissions') ?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Permissions</span></a>
+                    </li>
                 </ul>
             </div>
 
             <div class="sidebar-module">
-                <div class="sidebar-heading p-2 nav-item-head">
-                    Students
+                <div class="sidebar-heading px-2 pt-2 nav-item-head">
+                    Roles
                 </div>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('students') ?>">
+                    <a class="nav-link" href="<?= manageURL('roles') ?>">
                         <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Students</span></a>
+                        <span>Roles</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('add-student') ?>">
+                    <a class="nav-link" href="<?= manageURL('add-role') ?>">
                         <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Add Student</span></a>
+                        <span>Add Role</span></a>
                 </li>
             </div>
 
             <div class="sidebar-module">
-                <div class="sidebar-heading p-2 nav-item-head">
-                    Teachers
+                <div class="sidebar-heading px-2 pt-2 nav-item-head">
+                    Permissions
                 </div>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('teachers') ?>">
+                    <a class="nav-link" href="<?= manageURL('permissions') ?>">
                         <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Teachers</span></a>
+                        <span>Permissions</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('add-teacher') ?>">
+                    <a class="nav-link" href="<?= manageURL('add-permission') ?>">
                         <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Add Teacher</span></a>
+                        <span>Add Permission</span></a>
                 </li>
             </div>
 
-            <div class="sidebar-module">
-                <div class="sidebar-heading p-2 nav-item-head">
-                    Staffs
-                </div>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('staffs') ?>">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Staffs</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('add-staff') ?>">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Add Staff</span></a>
-                </li>
-            </div>
             
 
         </div>
