@@ -28,7 +28,38 @@ common.popup_error = (message)=>{
     espace.show()
     setTimeout(() => {
         espace.hide()
+        espace.find('.popup-title').html("")
     }, 2000);
+}
+
+common.searchNameEmail = (val)=>{
+    let url = manageURLAPI + '/search-name-email'
+    data={q:val}
+    common.ajaxCall(url, "GET", data, (res) => {
+        if (res.status) {
+            if(res.data.length>0){
+                ls = '';
+                res.data.forEach(e => {
+                    ls+=`<li class="ss-list" data-id="`+e.id+`"><span class="user_name">`+e.email+`</span><span>(`+e.first_name+` `+e.last_name+`)</span></li>`
+                });
+                let elm = `<ul class="search-ul-list">`+ls+`</ul>`
+                $('.filter-form .search-list').html(elm)
+                $('.filter-form .search-list').show();
+            }else{
+                $('.filter-form .search-list').hide();
+                $('.filter-form .search-list').html('')
+            }
+        } else {
+            console.log(res)
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+
+common.getCheckedPermissions = ()=>{
+    let arr = new Array()
+    return arr
 }
 
 
@@ -154,6 +185,7 @@ user.register = ()=>{
         return false;
     }
     if (data.password != password_repeat_elm.val()) {
+        common.popup_error("Password is not matched!")
         return false;
     }
 
@@ -180,6 +212,7 @@ user.register = ()=>{
     if (emailValidator && passwordValidator) {
         common.ajaxCall(url, "POST", data, (res) => {
             if (res.status && res.id != undefined && res.id != null) {
+                common.popup_error(res.message)
                 window.location.href = manageURL + '/dashboard'
             }else{
                 common.popup_error(res.message)
@@ -263,7 +296,16 @@ user.edit = (id)=>{
     // alert("edit")
     window.location.href = manageURL+'/edit-user?uid='+id
 }
-user.save = (id)=>{
+user.editpermission = (id)=>{
+    // alert("edit")
+    window.location.href = manageURL+'/permission-user?uid='+id
+}
+user.savepermission = ()=>{
+    // alert("edit")
+    let form = $(document).find('form#edit-user-permissions-form')
+    console.log(form)
+}
+user.save = ()=>{
     // alert("save")
     let url = manageURLAPI + '/edit-user'
     let data = {}
@@ -352,7 +394,6 @@ role.add = ()=>{
     }
     data.display_name = display_name_elm.val()
 
-    data.parent = $('select[name=parent]').val()
     data.remarks = $('textarea[name=remarks]').val()
     data.form_type = $("input[name=form_type]").val();
     common.ajaxCall(url, "POST", data, (res) => {
@@ -365,6 +406,15 @@ role.add = ()=>{
 }
 role.edit = (id)=>{
     window.location.href = manageURL+'/edit-role?id='+id
+}
+role.editpermission = (id)=>{
+    // alert("edit")
+    window.location.href = manageURL+'/permission-user?uid='+id
+}
+role.savepermission = ()=>{
+    // alert("edit")
+    let form = $(document).find('form#edit-user-permissions-form')
+    console.log(form)
 }
 role.save = (id)=>{
     let url = manageURLAPI + '/edit-role'
@@ -379,7 +429,6 @@ role.save = (id)=>{
     }
     data.display_name = display_name_elm.val()
 
-    data.parent = $('select[name=parent]').val()
     data.remarks = $('textarea[name=remarks]').val()
     data.form_type = $("input[name=form_type]").val();
     data.id = urlParams.get('id')
@@ -427,6 +476,9 @@ permission.add = ()=>{
     data.display_name = display_name_elm.val()
 
     data.parent = $('select[name=parent]').val()
+    data.priority = $('input[name=priority]').val()
+    data.routing_url = $('input[name=routing_url]').val()
+    data.status = $('select[name=status]').val()
     data.remarks = $('textarea[name=remarks]').val()
     data.form_type = $("input[name=form_type]").val();
     common.ajaxCall(url, "POST", data, (res) => {
@@ -454,6 +506,9 @@ permission.save = (id)=>{
     data.display_name = display_name_elm.val()
 
     data.parent = $('select[name=parent]').val()
+    data.priority = $('input[name=priority]').val()
+    data.routing_url = $('input[name=routing_url]').val()
+    data.status = $('select[name=status]').val()
     data.remarks = $('textarea[name=remarks]').val()
     data.form_type = $("input[name=form_type]").val();
     data.id = urlParams.get('id')
@@ -481,75 +536,3 @@ permission.delete = (id)=>{
 
 
 
-
-// menu 
-menu.add = ()=>{
-    let url = manageURLAPI + '/add-menu'
-    let data = {}
-
-    let menu_name_elm = $('input[name=name]')
-    if (menu_name_elm.val() == "") {
-        menu_name_elm.addClass("field-focus-error")
-        return false;
-    }
-    data.name = menu_name_elm.val()
-
-    let display_name_elm = $('input[name=display_name]')
-    if (display_name_elm.val() == "") {
-        display_name_elm.addClass("field-focus-error")
-        return false;
-    }
-    data.display_name = display_name_elm.val()
-
-    data.parent = $('select[name=parent]').val()
-    data.remarks = $('textarea[name=remarks]').val()
-    data.form_type = $("input[name=form_type]").val();
-    common.ajaxCall(url, "POST", data, (res) => {
-        if (res.status && res.id != undefined && res.id != null) {
-            window.location.href = manageURL + '/menu'
-        }
-    }, (err) => {
-        console.log(err)
-    })
-}
-menu.edit = (id)=>{
-    window.location.href = manageURL+'/edit-menu?id='+id
-}
-menu.save = (id)=>{
-    let url = manageURLAPI + '/edit-menu'
-    let data = {}
-
-    data.name = $('input[name=name]').val()
-
-    let display_name_elm = $('input[name=display_name]')
-    if (display_name_elm.val() == "") {
-        display_name_elm.addClass("field-focus-error")
-        return false;
-    }
-    data.display_name = display_name_elm.val()
-
-    data.parent = $('select[name=parent]').val()
-    data.remarks = $('textarea[name=remarks]').val()
-    data.form_type = $("input[name=form_type]").val();
-    data.id = urlParams.get('id')
-    common.ajaxCall(url, "POST", data, (res) => {
-        if (res.status && res.id != undefined && res.id != null) {
-            window.location.href = manageURL + '/menu'
-        }
-    }, (err) => {
-        console.log(err)
-    })
-}
-menu.delete = (id)=>{
-    let url = manageURLAPI + '/delete-menu'
-    let data = {
-        id:id
-    }
-    common.ajaxCall(url,"POST",data,(res)=>{
-        if (res.status) {
-            window.location.href = manageURL + '/menu'
-        }else{
-
-        }
-    })
-}

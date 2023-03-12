@@ -33,6 +33,18 @@
         </div>
 
 
+        <?php
+        $selected_val = '';
+        if (isset($permission['routing_url']) && !empty($permission['routing_url']) && is_string($permission['routing_url'])) {
+            $selected_val = $permission['routing_url'];
+        }
+        ?>
+        <div class="form-group col-md-6">
+            <label for="routing_url">Routing Url</label>
+            <input type="text" class="form-control" id="routing_url" name="routing_url" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Url">
+        </div>
+
+
         
         <?php
         $selected = 'selected';
@@ -53,6 +65,34 @@
                 }
                 ?>
             </select>
+        </div>
+
+
+        <?php
+        $selected = 'selected';
+        $selected_val = 1;
+        if (isset($permission['status']) && $permission['status']=='0') {
+            $selected_val = $permission['status'];
+        }
+        ?>
+        <div class="form-group col-md-6">
+            <label for="status">Status</label>
+            <select id="status" class="form-control" name="status">
+                <option value="1" <?= ($selected_val == 1) ? $selected : '' ?>>Active</option>
+                <option value="0" <?= ($selected_val == 0) ? $selected : '' ?>>InActive</option>
+            </select>
+        </div>
+
+
+        <?php
+        $selected_val = '';
+        if (isset($permission['priority']) && !empty($permission['priority']) && is_numeric($permission['priority'])) {
+            $selected_val = $permission['priority'];
+        }
+        ?>
+        <div class="form-group col-md-6">
+            <label for="priority">Priority</label>
+            <input type="text" class="form-control" id="priority" name="priority" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Priority">
         </div>
 
 

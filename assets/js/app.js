@@ -1,39 +1,88 @@
 console.log('login.js loaded')
 
-$("form").find("input,textarea,select").click(function(e) {
-    if($(this).hasClass("field-focus-error")){
-        $(this).removeClass("field-focus-error")  
+$(window).ready(function () {
+    // $('#edit-user-form').css('display','none')
+
+    $('.search-list').on('click', '.ss-list', function (e) {
+        let user_name = $(this).find('.user_name').text()
+        let uid = $(this).data('id')
+        let action = $('input#name_email').data('action_in')
+        $('input#name_email').val(user_name)
+        let url = manageURLAPI + '/fetch-user-form'
+        let data = {
+            id: uid,
+            form_btn: 'edit',
+            action: action
+        }
+        common.ajaxCall(url, 'GET', data, (res) => {
+            if(res.status){
+                if(action=='edit_user'){
+                    $('#add-edit-user-form').html(res.data)
+                    urlParams.set('uid',uid)
+                    window.history.replaceState(window.location.href, null, '?'+urlParams);
+                }else if(action=='permission_user'){
+                    $('#add-edit-permission-form').html(res.data)
+                    urlParams.set('uid',uid)
+                    window.history.replaceState(window.location.href, null, '?'+urlParams);
+                }else{
+                    $('#add-edit-permission-form').html('')
+                }
+            }
+            console.log(res)
+        }, (err) => {
+            console.log(err)
+        })
+
+        // e.stopPropagation();
+    })
+})
+
+$("form").find("input,textarea,select").click(function (e) {
+    if ($(this).hasClass("field-focus-error")) {
+        $(this).removeClass("field-focus-error")
     }
 })
 
-$("form#1-login-form").submit(function (e) {
+$(document).on("submit","form#1-login-form",function (e) {
     e.preventDefault()
     user.login()
 });
 
-
-$("form#2-register-form").submit(function (e) {
+$(document).on("submit","form#2-register-form",function (e) {
     e.preventDefault()
     user.register()
 });
 
+
+
+
 // user 
-$("form#add-user-form").submit(function (e) {
+$(document).on("submit","form#add-user-form",function (e) {
     e.preventDefault()
     user.add()
 });
 
-$("form#edit-user-form").submit(function (e) {
+$(document).on("submit","form#edit-user-form",function (e) {
     e.preventDefault()
     user.save()
 });
 
-$("button.user-table-btn-edit").on("click", function () {
+$(document).on("submit","form#edit-user-permissions-form",function (e) {
+    e.preventDefault()
+    user.savepermission()
+})
+
+$(document).on("click","button.user-table-btn-permissions",function (e) {
+    let id = $(this).data('id');
+    user.editpermission(id)
+})
+
+$(document).on("click","button.user-table-btn-edit",function (e) {
     let id = $(this).data('id');
     user.edit(id)
 })
 
-$("button.user-table-btn-delete").on("click", function () {
+$(document).on("click","button.user-table-btn-delete",function (e) {
     let id = $(this).data('id');
     let val = confirm("Do you want to delete this user?")
     if (val == true) {
@@ -42,23 +91,25 @@ $("button.user-table-btn-delete").on("click", function () {
 })
 
 
+
+
 // role 
-$("form#add-role-form").submit(function (e) {
+$(document).on("submit","form#add-role-form",function (e) {
     e.preventDefault()
     role.add()
 });
 
-$("form#edit-role-form").submit(function (e) {
+$(document).on("submit","form#edit-role-form",function (e) {
     e.preventDefault()
     role.save()
 });
 
-$("button.role-table-btn-edit").on("click", function () {
+$(document).on("click","button.role-table-btn-edit",function (e) {
     let id = $(this).data('role-id');
     role.edit(id)
 })
 
-$("button.role-table-btn-delete").on("click", function () {
+$(document).on("click","button.role-table-btn-delete",function (e) {
     let id = $(this).data('role-id');
     let val = confirm("Do you want to delete this role?")
     if (val == true) {
@@ -69,22 +120,22 @@ $("button.role-table-btn-delete").on("click", function () {
 
 
 // permission 
-$("form#add-permission-form").submit(function (e) {
+$(document).on("submit","form#add-permission-form",function (e) {
     e.preventDefault()
     permission.add()
 });
 
-$("form#edit-permission-form").submit(function (e) {
+$(document).on("submit","form#edit-permission-form",function (e) {
     e.preventDefault()
     permission.save()
 });
 
-$("button.permission-table-btn-edit").on("click", function () {
+$(document).on("click","button.permission-table-btn-edit",function (e) {
     let id = $(this).data('permission-id');
     permission.edit(id)
 })
 
-$("button.permission-table-btn-delete").on("click", function () {
+$(document).on("click","button.permission-table-btn-delete",function (e) {
     let id = $(this).data('permission-id');
     let val = confirm("Do you want to delete this permission?")
     if (val == true) {
@@ -93,27 +144,22 @@ $("button.permission-table-btn-delete").on("click", function () {
 })
 
 
-// menu 
-$("form#add-menu-form").submit(function (e) {
-    e.preventDefault()
-    menu.add()
-});
 
-$("form#edit-menu-form").submit(function (e) {
-    e.preventDefault()
-    menu.save()
-});
 
-$("button.menu-table-btn-edit").on("click", function () {
-    let id = $(this).data('menu-id');
-    menu.edit(id)
-})
 
-$("button.menu-table-btn-delete").on("click", function () {
-    let id = $(this).data('menu-id');
-    let val = confirm("Do you want to delete this menu?")
-    if (val == true) {
-        menu.delete(id)
+$(document).on('keyup','input#name_email',function () {
+    if (this.value.length > 2) {
+        common.searchNameEmail(this.value)
+    } else {
+        $('.filter-form .search-list').hide();
+        $('.filter-form .search-list').html('')
     }
 })
+$(document).mouseup(function (e) {
+    var container = $(document).find("input#name_email");
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+        $('.filter-form .search-list').hide();
+    }
+});
+
 

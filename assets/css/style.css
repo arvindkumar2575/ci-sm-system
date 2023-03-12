@@ -115,3 +115,67 @@ table tbody td{
 table tr button.btn{
     padding: 2px 5px;
 }
+
+
+.flow-diagram .parentNodeL1::before{
+    content: "|--";
+    padding-left: 10px;
+    padding-right: 2px;
+}
+.flow-diagram .parentNodeL2::before{
+    content: "|--";
+    padding-left: 35px;
+    padding-right: 2px;
+}
+
+/* select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+} */
+select option.parentNodeL1{
+    padding: 10px;
+}
+select option.parentNodeL1::before{
+    content: "|--";
+    padding-left: 10px;
+    padding-right: 2px;
+}
+select option.parentNodeL2::before{
+    content: "|--";
+    padding-left: 35px;
+    padding-right: 2px;
+}
+
+.filter-form .search-list{
+    position: absolute;
+    background: #fff;
+    padding: 5px;
+    box-shadow: 0px 4px 5px 0px;
+    border-radius: 4px;
+    display: none;
+}
+.filter-form .search-list .search-ul-list{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.filter-form .search-list .search-ul-list li{
+    margin: 4px 0;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.filter-form .search-list .search-ul-list li:hover{
+    margin: 4px 0;
+    padding: 0 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #dfdfdf;
+}
+.filter-form .search-list .search-ul-list li.ss-list span{
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+.filter-form .search-list .search-ul-list li.ss-list span.user_name{
+    font-size: 1rem;
+}

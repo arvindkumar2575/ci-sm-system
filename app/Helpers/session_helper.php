@@ -5,6 +5,7 @@ if (!function_exists("checkSession")) {
     {
         $session = session();
         $usersession = $session->get('usersession')??array();
+        // echo '<pre>';print_r($usersession);die;
         $isLoggedIn = isset($usersession['isLoggedIn'])?$usersession['isLoggedIn']:0;
         if($isLoggedIn){
             return true;

@@ -6,13 +6,13 @@
     <h1 class="h3 mb-0 text-gray-800"><?= $heading_title ?></h1>
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
 </div>
-<form name="<?= $form_btn ?>-menu-form" id="<?= $form_btn ?>-menu-form" class="<?= $form_btn ?>-menu-form">
+<form name="<?= $form_btn ?>-role-form" id="<?= $form_btn ?>-role-form" class="<?= $form_btn ?>-role-form">
     <div class="row">
 
         <?php
         $selected_val = '';
-        if (isset($menu['name']) && !empty($menu['name']) && is_string($menu['name'])) {
-            $selected_val = $menu['name'];
+        if (isset($role['name']) && !empty($role['name']) && is_string($role['name'])) {
+            $selected_val = $role['name'];
         }
         ?>
         <div class="form-group col-md-6">
@@ -23,8 +23,8 @@
 
         <?php
         $selected_val = '';
-        if (isset($menu['display_name']) && !empty($menu['display_name']) && is_string($menu['display_name'])) {
-            $selected_val = $menu['display_name'];
+        if (isset($role['display_name']) && !empty($role['display_name']) && is_string($role['display_name'])) {
+            $selected_val = $role['display_name'];
         }
         ?>
         <div class="form-group col-md-6">
@@ -33,33 +33,10 @@
         </div>
 
 
-        
-        <?php
-        $selected = 'selected';
-        $selected_val = 0;
-        if (isset($menu['parent']) && !empty($menu['parent']) && is_numeric($menu['parent'])) {
-            $selected_val = $menu['parent'];
-        }
-        ?>
-        <div class="form-group col-md-6">
-            <label for="parent">Parent</label>
-            <select id="parent" class="form-control" name="parent">
-                <option value="0" <?= ($selected_val == 0) ? $selected : '' ?>>Default</option>
-                <?php
-                foreach ($menu_list as $key => $value) {
-                ?>
-                    <option value="<?= $value['id'] ?>" <?= ($selected_val == $value['id']) ? $selected : '' ?>><?= $value['display_name'] ?></option>
-                <?php
-                }
-                ?>
-            </select>
-        </div>
-
-
         <?php
         $selected_val = '';
-        if (isset($menu['remarks']) && !empty($menu['remarks']) && is_numeric($menu['remarks'])) {
-            $selected_val = $menu['remarks'];
+        if (isset($role['remarks']) && !empty($role['remarks']) && is_numeric($role['remarks'])) {
+            $selected_val = $role['remarks'];
         }
         ?>
         <div class="form-group col-md-6">
@@ -75,11 +52,11 @@
         $form_name = '';
         if ($form_btn == 'add') {
             $btn_class = 'success';
-            $form_name = 'ADD_MENU';
+            $form_name = 'ADD_ROLE';
 
         } else if ($form_btn == 'edit') {
             $btn_class = 'primary';
-            $form_name = 'EDIT_MENU';
+            $form_name = 'EDIT_ROLE';
         }
         ?>
         <input type="hidden" name="form_type" value="<?=$form_name?>" />

@@ -56,7 +56,7 @@ $routes->group("manage", function($routes){
     $routes->get('users', 'Users::index');
     $routes->get('add-user', 'Users::addUser');
     $routes->get('edit-user', 'Users::editUser');
-    $routes->get('user-permissions', 'Users::editUserPermissions');
+    $routes->get('permission-user', 'Users::editUserPermissions');
 
     $routes->get('permissions', 'Manage::permissions');
     $routes->get('add-permission', 'Manage::addPermission');
@@ -66,9 +66,9 @@ $routes->group("manage", function($routes){
     $routes->get('add-role', 'Manage::addRole');
     $routes->get('edit-role', 'Manage::editRole');
 
-    $routes->get('menu', 'Manage::menu');
-    $routes->get('add-menu', 'Manage::addMenu');
-    $routes->get('edit-menu', 'Manage::editMenu');
+    $routes->get('students', 'Manage::students');
+    $routes->get('add-student', 'Manage::addStudent');
+    $routes->get('edit-student', 'Manage::editStudent');
 
 
 
@@ -76,22 +76,22 @@ $routes->group("manage", function($routes){
 });
 
 $routes->group("manage/api", function($routes){
-    $routes->match(['get', 'post'], 'auth', 'Manage::authenticate');
-    $routes->post('add-user', 'APIController::addEditUser');
-    $routes->post('edit-user', 'APIController::addEditUser');
-    $routes->post('delete-user', 'APIController::deleteUser');
+    $routes->match(['get', 'post'], 'auth', 'APIController::authenticate');
+    $routes->post('add-user', 'APIUsers::addEditUser');
+    $routes->post('edit-user', 'APIUsers::addEditUser');
+    $routes->post('delete-user', 'APIUsers::deleteUser');
+    $routes->get('fetch-user-form','APIUsers::fetchUserEditForm');
     
-    $routes->post('add-role', 'APIController::addEditRole');
-    $routes->post('edit-role', 'APIController::addEditRole');
-    $routes->post('delete-role', 'APIController::deleteRole');
+    $routes->post('add-role', 'APIRoles::addEditRole');
+    $routes->post('edit-role', 'APIRoles::addEditRole');
+    $routes->post('delete-role', 'APIRoles::deleteRole');
 
-    $routes->post('add-permission', 'APIController::addEditPermission');
-    $routes->post('edit-permission', 'APIController::addEditPermission');
-    $routes->post('delete-permission', 'APIController::deletePermission');
+    $routes->post('add-permission', 'APIPermissions::addEditPermission');
+    $routes->post('edit-permission', 'APIPermissions::addEditPermission');
+    $routes->post('delete-permission', 'APIPermissions::deletePermission');
 
-    $routes->post('add-menu', 'APIController::addEditMenu');
-    $routes->post('edit-menu', 'APIController::addEditMenu');
-    $routes->post('delete-menu', 'APIController::deleteMenu');
+
+    $routes->get('search-name-email', 'APIController::searchNameEmail');
 });
 
 /*

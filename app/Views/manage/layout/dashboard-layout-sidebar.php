@@ -1,3 +1,15 @@
+<?php
+
+use App\Libraries\Utilslib;
+use App\Models\Common;
+
+$c = new Common;
+$userId = $_SESSION['usersession']['id'];
+$userpermissions = $c->getUserPermissions($userId);
+// echo '<pre>';print_r($userpermissions);die;
+
+?>
+
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -18,89 +30,93 @@
             <li class="nav-item-head px-2">
                 <a class="nav-link" href="<?= manageURL('dashboard') ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
 
             <hr class="sidebar-divider my-0">
             <!-- Divider -->
 
 
-
             <div class="sidebar-module">
-                <div class="sidebar-heading px-2 pt-2 nav-item-head">
-                    Menu
+                <div class="sidebar-heading px-2 mt-2 nav-item-head">
+                    Users 
                 </div>
                 <ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= manageURL('menu') ?>">
+                        <a class="nav-link" href="<?=manageURL('users')?>">
                             <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Menu</span></a>
+                            <span>View</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= manageURL('add-menu') ?>">
+                        <a class="nav-link" href="<?=manageURL('add-user')?>">
                             <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Add Menu</span></a>
+                            <span>Add</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=manageURL('edit-user')?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Edit</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=manageURL('permission-user')?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Permissions</span>
+                        </a>
                     </li>
                 </ul>
             </div>
 
 
+
             <div class="sidebar-module">
-                <div class="sidebar-heading px-2 pt-2 nav-item-head">
-                    Users
+                <div class="sidebar-heading px-2 mt-2 nav-item-head">
+                    Roles 
                 </div>
                 <ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= manageURL('users') ?>">
+                        <a class="nav-link" href="<?=manageURL('roles')?>">
                             <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Users</span></a>
+                            <span>View</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= manageURL('add-user') ?>">
+                        <a class="nav-link" href="<?=manageURL('add-role')?>">
                             <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Add User</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= manageURL('user-permissions') ?>">
-                            <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Permissions</span></a>
+                            <span>Add</span>
+                        </a>
                     </li>
                 </ul>
             </div>
 
-            <div class="sidebar-module">
-                <div class="sidebar-heading px-2 pt-2 nav-item-head">
-                    Roles
-                </div>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('roles') ?>">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Roles</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('add-role') ?>">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Add Role</span></a>
-                </li>
-            </div>
+
 
             <div class="sidebar-module">
-                <div class="sidebar-heading px-2 pt-2 nav-item-head">
-                    Permissions
+                <div class="sidebar-heading px-2 mt-2 nav-item-head">
+                    Permissions 
                 </div>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('permissions') ?>">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Permissions</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= manageURL('add-permission') ?>">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Add Permission</span></a>
-                </li>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=manageURL('permissions')?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>View</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=manageURL('add-permission')?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Add</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
 
-            
+
+
+
 
         </div>
     </div>

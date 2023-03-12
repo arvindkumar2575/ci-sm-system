@@ -1,11 +1,12 @@
-<?= $this->extend("manage/layout/dashboard-layout") ?>
 
-<?= $this->section("content") ?>
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800"><?= $heading_title ?></h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-</div>
+<?php
+
+use App\Models\UserModel;
+
+$u = new UserModel;
+$gender_details = $u->getGenderDetails();
+$user_types = $u->getUserTypes();
+?>
 <form name="<?= $form_btn ?>-user-form" id="<?= $form_btn ?>-user-form" class="<?= $form_btn ?>-user-form">
     <div class="row">
 
@@ -129,44 +130,37 @@
 
         <?php
         $selected = 'selected';
-        $selected_val = 0;
-        if (isset($user['status']) && !empty($user['status']) && is_numeric($user['status'])) {
+        $selected_val = 1;
+        if (isset($user['status']) && $user['status'] == '0') {
             $selected_val = $user['status'];
         }
         ?>
         <div class="form-group col-md-3">
             <label for="status">Status</label>
             <select id="status" class="form-control" name="status">
-                <option value="1" <?= $selected_val == '1' ? $selected : '' ?>>Active</option>
-                <option value="0" <?= $selected_val == '0' ? $selected : '' ?>>InActive</option>
+                <option value="1" <?= ($selected_val == 1) ? $selected : '' ?>>Active</option>
+                <option value="0" <?= ($selected_val == 0) ? $selected : '' ?>>InActive</option>
             </select>
         </div>
 
 
-
-        
         <?php
         $btn_class = '';
         $form_name = '';
         if ($form_btn == 'add') {
             $btn_class = 'success';
             $form_name = 'ADD_USER';
-
         } else if ($form_btn == 'edit') {
             $btn_class = 'primary';
             $form_name = 'EDIT_USER';
         }
         ?>
-        <input type="hidden" name="form_type" value="<?=$form_name?>" />
+        <input type="hidden" name="form_type" value="<?= $form_name ?>" />
         <div class="col-md-12 submit-btns">
-            <button type="submit" class="btn btn-<?= $btn_class ?>" data-btn="<?= $form_btn ?>">
-                Save
-            </button>
+            <button type="submit" class="btn btn-<?= $btn_class ?>" data-btn="<?= $form_btn ?>">Save</button>
             <button type="reset" class="btn btn-danger">Reset</button>
         </div>
 
-        
+
     </div>
 </form>
-
-<?= $this->endSection() ?>

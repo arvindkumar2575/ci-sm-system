@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\Utilslib;
 use App\Models\Common;
 use App\Models\UserModel;
 use DateTime;
@@ -12,12 +13,14 @@ class Manage extends BaseController
     protected $uri_segment;
     protected $common;
     protected $userModel;
+    protected $utilslib;
     public function __construct()
     {
         $this->session = session();
         $this->uri_segment = service('uri');
         $this->common = new Common();
         $this->userModel = new UserModel();
+        $this->utilslib = new Utilslib();
     }
     
     
@@ -115,99 +118,12 @@ class Manage extends BaseController
         }
     }
 
-    public function authenticate()
-    {
-        $form_type = $this->request->getVar('form_type');
-        if($form_type=="login"){
-            $email = $this->request->getVar('username');
-            $password = $this->request->getVar('password');
-            $data = $this->common->get_single_row("tbl_user",array('email'=>$email),array());
-            // echo '<pre>';print_r($data);die;
-            if($data){
-                $pass = $data['password'];
-                $authenticatePass = password_verify($password,$pass);
-                if($authenticatePass){
-                    $usersession = array(
-                        'id'=>$data['id'],
-                        'isLoggedIn'=>true
-                    );
-                    $this->session->set('usersession',$usersession);
-                    $result = array('status'=>true,'message'=>'Successfully Logged In!','id'=>$data['id']);
-                    return json_encode($result);
-                }else{
-                    $result = array('status'=>false,'message'=>'Username/Password is not matched!');
-                    return json_encode($result);
-                }
-            }else{
-                $result = array('status'=>false,'message'=>'Username/Password not exit!');
-                return json_encode($result);
-            }
-        }else if($form_type=="register"){
-            // echo '<pre>';print_r($this->request);die;
-            $first_name = $this->request->getVar('first_name');
-            $last_name = $this->request->getVar('last_name');
-            $gender_id = $this->request->getVar('gender_id');
-            $email = $this->request->getVar('email');
-            $password = $this->request->getVar('password');
-            $user_type = $this->request->getVar('user_type');
-            $details = $this->request->getVar('details');
-            // $hashPass = password_hash($password,PASSWORD_BCRYPT);
-            
-            $isEmailExit=0;
-            if(!empty($user_type)){
-                $isEmailExit = $this->userModel->isEmailExit($email);
-            }else{
-                $result = array('status'=>false,'message'=>'Select User Type!');
-                return json_encode($result);
-            }
-            // echo 'isEmailExit';die();
-            if(!$isEmailExit){
-                $user_id = $this->signUpData($email,$password,$user_type,$first_name,$last_name,$gender_id,$details);
-                if($user_id){
-                    $result = array('status'=>true,'message'=>'Successfully Register!','id'=>$user_id);
-                    return json_encode($result);
-                }else{
-                    $result = array('status'=>false,'message'=>'Please try again!');
-                    return json_encode($result);
-                }
-            }else{
-                $result = array('status'=>false,'message'=>'Email Id already registered!');
-                return json_encode($result);
-            }
-        }else{
-            $result = array('status'=>false,'message'=>'Invalid request!');
-            return json_encode($result);
-        }
-    }
 
-    private function signUpData($email,$password,$user_type,$first_name,$last_name,$gender_id,$details)
-    {
-        $currentDate = new DateTime();
-        $user_data=array(
-            'user_type'=>$user_type,
-            'email'=>$email,
-            'password'=>password_hash($password,PASSWORD_BCRYPT),
-            'verified'=>'0',
-            'first_name'=>$first_name,
-            'last_name'=>$last_name,
-            'gender_id'=>$gender_id,
-            'details'=>json_encode($details),
-            'verification_code'=>md5($email),
-            'created_at'=>$currentDate->format('Y-m-d H:i:s'),
-            'modified_at'=>$currentDate->format('Y-m-d H:i:s'),
-        );
-        $user_id = $this->common->data_insert('tbl_user',$user_data);
-        if($user_id){
-            return $user_id;
-        }else{
-            return false;
-        }
-    }
+
+
 
 
     
-
-
     // roles methods 
     public function roles()
     {
@@ -325,61 +241,24 @@ class Manage extends BaseController
 
 
 
-    // menu 
-    public function menu()
+
+
+
+
+    // student methods 
+    public function students()
     {
         if(checkSession()){
             $data = array();
-            $data['title'] = 'Menu';
-            $data['heading_title'] = 'Menu';
-            $data['menu_active'] = 'menu';
-            $data['menu'] = $this->common->getAllMenu();
-            return view('manage/menu/view-menu',$data);
+            $data['title'] = 'Students';
+            $data['heading_title'] = 'Students';
+            $data['menu_active'] = 'students';
+            $data['roles'] = $this->common->getAllRoles();
+            return view('manage/roles/view-roles',$data);
         }else{
             return redirect()->to('manage/login');
         }
     }
 
-    public function addMenu()
-    {
-        if(checkSession()){
-            $data = array();
-            $data['title'] = 'Add Menu';
-            $data['heading_title'] = 'Add Menu';
-            $data['menu_active'] = 'add_menu';
-            $data['menu_list'] = $this->common->getMenuList();
-            $data['form_btn'] = 'add';
-            return view('manage/menu/add-menu',$data);
-        }else{
-            return redirect()->to('manage/menu');
-        }
-    }
-
-    public function editMenu()
-    {
-        $id = $this->request->getVar('id');
-        if(checkSession()){
-            if(isset($id) && !empty($id) && is_numeric($id)){
-                $data = array();
-                $data['menu_id'] = $id;
-                $data['title'] = 'menu';
-                $data['heading_title'] = 'menu';
-                $data['menu_active'] = 'add_menu';
-                $data['form_btn'] = 'edit';
-                $data['menu_list'] = $this->common->getMenuList();
-                $data['menu'] = $this->common->getMenu($id);
-                if(isset($data['menu'])){
-                    // echo '<pre>';print_r($data);die;
-                    return view('manage/menu/add-menu',$data);
-                }else{
-                    return redirect()->to('manage/menu');
-                }
-            }else{
-                return redirect()->to('manage/menu');
-            }
-        }else{
-            return redirect()->to('manage/menu');
-        }
-    }
 
 }

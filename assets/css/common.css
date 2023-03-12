@@ -152,6 +152,9 @@ select.form-control-user {
 .table-tree table{
     
 }
+table tr.r-del{
+    background-color: #ffb6b6;
+}
 
 
 
@@ -170,4 +173,15 @@ form{
 }
 .filter-form label{
     font-weight: 500;
+}
+
+.sidebar-menu::-webkit-scrollbar {
+    width: 8px;
+}
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background-color: #bdbdbd;
+    border-radius: 4px;
+}
+.sidebar-menu::-webkit-scrollbar-track {
+    background-color: #ededed;
 }

@@ -49,6 +49,35 @@ class Common extends Model
         return $result;
     }
 
+    public function get_data($table=null, array $where=array(), array $select=array(), $type='single')
+    {
+        $result=null;
+        if($select>0){
+            $select=''.implode(',',$select).'';
+        }else{
+            $select='*';
+        }
+        // echo $select;die;
+        if(isset($table)){
+            $query = $this->db->table($table)->where($where)->select($select)->get();
+            if($type=='single'){
+                $result = $query->getRowArray();
+            }else{
+                $result = $query->getResultArray();
+            }
+            // echo $this->db->lastQuery;die;
+        }
+        return $result;
+    }
+
+    public function getSearchQuery($q)
+    {
+        $sql = 'SELECT id,email,first_name,last_name FROM tbl_user WHERE email LIKE "%'.$q.'%" OR first_name LIKE "%'.$q.'%" LIMIT 10';
+        $query = $this->db->query($sql);
+        // echo $this->db->lastQuery;die;
+        $result = $query->getResultArray();
+        return $result;
+    }
 
     public function getAllPermissions()
     {
@@ -111,27 +140,13 @@ class Common extends Model
         return $result;
     }
 
-    public function getAllMenu()
+    public function getUserPermissions($id)
     {
-        $sql = 'SELECT * FROM tbl_menu';
+        $sql = 'SELECT tp.* FROM tbl_user_permissions as tup
+        LEFT JOIN tbl_permissions as tp on tp.id=tup.permission_id
+        WHERE tup.user_id='.$id.' AND tp.status=1';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
-        return $result;
-    }
-
-    public function getMenuList()
-    {
-        $sql = 'SELECT id,display_name FROM tbl_menu';
-        $query = $this->db->query($sql);
-        $result = $query->getResultArray();
-        return $result;
-    }
-
-    public function getMenu($id)
-    {
-        $sql = 'SELECT * FROM tbl_menu WHERE id='.$id.'';
-        $query = $this->db->query($sql);
-        $result = $query->getRowArray();
         return $result;
     }
 }

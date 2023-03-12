@@ -33,29 +33,6 @@
         </div>
 
 
-        
-        <?php
-        $selected = 'selected';
-        $selected_val = 0;
-        if (isset($role['parent']) && !empty($role['parent']) && is_numeric($role['parent'])) {
-            $selected_val = $role['parent'];
-        }
-        ?>
-        <div class="form-group col-md-6">
-            <label for="parent">Parent</label>
-            <select id="parent" class="form-control" name="parent">
-                <option value="0" <?= ($selected_val == 0) ? $selected : '' ?>>Default</option>
-                <?php
-                foreach ($role_list as $key => $value) {
-                ?>
-                    <option value="<?= $value['id'] ?>" <?= ($selected_val == $value['id']) ? $selected : '' ?>><?= $value['display_name'] ?></option>
-                <?php
-                }
-                ?>
-            </select>
-        </div>
-
-
         <?php
         $selected_val = '';
         if (isset($role['remarks']) && !empty($role['remarks']) && is_numeric($role['remarks'])) {
