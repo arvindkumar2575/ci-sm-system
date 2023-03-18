@@ -34,9 +34,9 @@ class Utilslib
             if ($value['parent'] == 0) {
                 $menu[$value['id']] = $value;
             } else {
-                // echo '<pre>';print_r($menu);die;
                 if (isset($menu[$value['parent']]['list'])) {
                     array_push($menu[$value['parent']]['list'], $value);
+                    // echo '<pre>';print_r($menu);die;
                 } else {
                     $menu[$value['parent']]['list'] = array();
                     array_push($menu[$value['parent']]['list'], $value);

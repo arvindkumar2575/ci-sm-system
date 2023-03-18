@@ -298,12 +298,31 @@ user.edit = (id)=>{
 }
 user.editpermission = (id)=>{
     // alert("edit")
-    window.location.href = manageURL+'/permission-user?uid='+id
+    window.location.href = manageURL+'/user-permissions?uid='+id
 }
-user.savepermission = ()=>{
+user.savepermission = (f)=>{
     // alert("edit")
-    let form = $(document).find('form#edit-user-permissions-form')
+    let form = $(f)
+    let ids = []
     console.log(form)
+    for (const iterator of form[0]) {
+        if($(iterator).hasClass("form-check-input") && !$(iterator).hasClass("head-title") && $(iterator).is(':checked')){
+            let v = $(iterator).val()
+            ids.push(v)
+        }
+    }
+    let url = manageURLAPI+"/save-user-permission"
+    let data = {
+        id:urlParams.get('uid'),
+        ids:ids
+    }
+    console.log(ids)
+    common.ajaxCall(url,"POST",data,(res)=>{
+        // console.log(res)
+        if (res.status) {
+            window.location.href = manageURL + '/users'
+        }
+    })
 }
 user.save = ()=>{
     // alert("save")
@@ -366,7 +385,7 @@ user.delete = (id)=>{
     let data = {
         id:id
     }
-    common.ajaxCall(url,"POST",data,()=>{
+    common.ajaxCall(url,"POST",data,(res)=>{
         if (res.status && res.id != undefined && res.id != null) {
             window.location.href = manageURL + '/users'
         }
@@ -409,12 +428,31 @@ role.edit = (id)=>{
 }
 role.editpermission = (id)=>{
     // alert("edit")
-    window.location.href = manageURL+'/permission-user?uid='+id
+    window.location.href = manageURL+'/role-permissions?uid='+id
 }
-role.savepermission = ()=>{
+role.savepermission = (f)=>{
     // alert("edit")
-    let form = $(document).find('form#edit-user-permissions-form')
+    let form = $(f)
+    let ids = []
     console.log(form)
+    for (const iterator of form[0]) {
+        if($(iterator).hasClass("form-check-input") && !$(iterator).hasClass("head-title") && $(iterator).is(':checked')){
+            let v = $(iterator).val()
+            ids.push(v)
+        }
+    }
+    let url = manageURLAPI+"/save-role-permission"
+    let data = {
+        id:urlParams.get('uid'),
+        ids:ids
+    }
+    console.log(ids)
+    common.ajaxCall(url,"POST",data,(res)=>{
+        // console.log(res)
+        if (res.status) {
+            window.location.href = manageURL + '/roles'
+        }
+    })
 }
 role.save = (id)=>{
     let url = manageURLAPI + '/edit-role'

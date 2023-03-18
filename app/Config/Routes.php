@@ -56,16 +56,17 @@ $routes->group("manage", function($routes){
     $routes->get('users', 'Users::index');
     $routes->get('add-user', 'Users::addUser');
     $routes->get('edit-user', 'Users::editUser');
-    $routes->get('permission-user', 'Users::editUserPermissions');
-
-    $routes->get('permissions', 'Manage::permissions');
-    $routes->get('add-permission', 'Manage::addPermission');
-    $routes->get('edit-permission', 'Manage::editPermission');
+    $routes->get('user-permissions', 'Users::editUserPermissions');
 
     $routes->get('roles', 'Manage::roles');
     $routes->get('add-role', 'Manage::addRole');
     $routes->get('edit-role', 'Manage::editRole');
-
+    $routes->get('role-permissions', 'Users::editRolePermissions');
+    
+    $routes->get('permissions', 'Manage::permissions');
+    $routes->get('add-permission', 'Manage::addPermission');
+    $routes->get('edit-permission', 'Manage::editPermission');
+    
     $routes->get('students', 'Manage::students');
     $routes->get('add-student', 'Manage::addStudent');
     $routes->get('edit-student', 'Manage::editStudent');
@@ -90,6 +91,9 @@ $routes->group("manage/api", function($routes){
     $routes->post('edit-permission', 'APIPermissions::addEditPermission');
     $routes->post('delete-permission', 'APIPermissions::deletePermission');
 
+    $routes->post('save-user-permission', 'APIPermissions::saveUserPermission');
+    $routes->post('save-role-permission', 'APIRoles::saveRolePermission');
+    
 
     $routes->get('search-name-email', 'APIController::searchNameEmail');
 });

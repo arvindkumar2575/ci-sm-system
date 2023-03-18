@@ -174,6 +174,8 @@ class APIUsers extends BaseController
         $data['id'] = $this->request->getVar('id')??$id;
         $action = $this->request->getVar('action')??$action;
         $form='';
+        $data['user_permissions'] =  $this->common->getUserPermissionsIds($data['id']);
+        // echo '<pre>';print_r($data);die;
         if($action=='edit_user'){
             $data['user'] = $this->userModel->getUserDetails($data['id']);
             $form = view('manage/users/add-edit-user-form', $data);
@@ -182,7 +184,6 @@ class APIUsers extends BaseController
             $data['all_permissions'] = $this->utilslib->menuList($permissions);
             $form = view('manage/users/add-edit-permission-form', $data);
         }
-        // echo '<pre>';print_r($form);die;
         $result = array('status'=>true,'data'=>$form);
         return json_encode($result);
     }

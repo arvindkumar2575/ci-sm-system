@@ -154,4 +154,32 @@ class APIPermissions extends BaseController
             return json_encode($result);
         }
     }
+
+    public function saveUserPermission()
+    {
+        $result=array();
+        $id = $this->request->getVar('id');
+        $ids = $this->request->getVar('ids');
+        if (!empty($id) && !empty($ids)) {
+            $permission_ids = $this->common->getUserPermissionsIds($id);
+            $delete_ids = array_diff($permission_ids,$ids);
+            $add_ids = array_diff($ids,$permission_ids);
+            if(!empty($delete_ids)){
+                $result = $this->common->deleteUserPermissions($id,$delete_ids);
+            }
+            if(!empty($add_ids)){
+                $result = $this->common->addUserPermissions($id,$add_ids);
+            }
+            if($result){
+                $result = array('status' => true, 'message' => 'User Permissions are updated!');
+                return json_encode($result);
+            }else{
+                $result = array('status' => false, 'message' => 'Please try later!');
+                return json_encode($result);
+            }
+        } else {
+            $result = array('status' => false, 'message' => 'Invalid request!');
+            return json_encode($result);
+        }
+    }
 }

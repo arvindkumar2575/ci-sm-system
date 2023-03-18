@@ -41,7 +41,7 @@
                         <td><?=$value['name']?></td>
                         <td><?=$value['display_name']?></td>
                         <td>
-                            <button class="btn btn-success role-table-btn-permissions" type="button" data-id="<?= $value['id'] ?>"><i class="fas fa-solid fa-universal-access"></i></button>
+                            <button class="btn btn-success role-table-btn-permissions" type="button" data-role-id="<?= $value['id'] ?>"><i class="fas fa-solid fa-universal-access"></i></button>
                             <button class="btn btn-success role-table-btn-edit" type="button" data-role-id="<?=$value['id']?>"><i class="fas fa-edit"></i></button>
                             <button class="btn btn-danger role-table-btn-delete" type="button" data-role-id="<?=$value['id']?>"><i class="fas fa-solid fa-trash"></i></button>
                         </td>

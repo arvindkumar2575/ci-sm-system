@@ -84,18 +84,18 @@ class UserModel extends Model
         return $result;
     }
 
-    public function getUserPermissions($id)
+    public function getRoleDetails($id)
     {
-        $sql = 'SELECT tp.* FROM tbl_permissions_user as tpu 
-        LEFT JOIN tbl_user as tu on tu.id=tpu.user_id 
-        LEFT JOIN tbl_permissions as tp on tp.id=tpu.permission_id
-        WHERE tpu.user_id='.$id.'';
-        $query = $this->db->query($sql);
-        $result = $query->getResultArray();
+        $result=array();
+        try {
+            $sql = 'SELECT id,name,display_name FROM tbl_roles WHERE id='.$id.'';
+            $query = $this->db->query($sql);
+            $result = $query->getRowArray();
+            return $result;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         return $result;
     }
-
-
-
-    
+        
 }

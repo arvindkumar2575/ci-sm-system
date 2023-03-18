@@ -4,9 +4,12 @@ use App\Libraries\Utilslib;
 use App\Models\Common;
 
 $c = new Common;
+$u = new Utilslib;
 $userId = $_SESSION['usersession']['id'];
 $userpermissions = $c->getUserPermissions($userId);
 // echo '<pre>';print_r($userpermissions);die;
+$all_permissions = $u->menuList($userpermissions);
+// echo '<pre>';print_r($all_permissions);die;
 
 ?>
 
@@ -37,6 +40,12 @@ $userpermissions = $c->getUserPermissions($userId);
             <hr class="sidebar-divider my-0">
             <!-- Divider -->
 
+            <?php
+            // foreach ($variable as $key => $value) {
+            //     # code...
+            // }
+            ?>
+
 
             <div class="sidebar-module">
                 <div class="sidebar-heading px-2 mt-2 nav-item-head">
@@ -62,7 +71,7 @@ $userpermissions = $c->getUserPermissions($userId);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=manageURL('permission-user')?>">
+                        <a class="nav-link" href="<?=manageURL('user-permissions')?>">
                             <i class="fas fa-fw fa-chart-area"></i>
                             <span>Permissions</span>
                         </a>

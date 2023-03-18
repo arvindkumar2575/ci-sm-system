@@ -1,4 +1,7 @@
-<form name="<?= $form_btn ?>-user-permissions-form" id="<?= $form_btn ?>-user-permissions-form" class="<?= $form_btn ?>-user-permissions-form">
+<?php
+$permissions=isset($user_permissions)?$user_permissions:(isset($role_permissions)?$role_permissions:array());
+?>
+<form name="<?= $form_btn ?>-<?=$form_type?>-permissions-form" id="<?= $form_btn ?>-<?=$form_type?>-permissions-form" class="<?= $form_btn ?>-<?=$form_type?>-permissions-form">
     <div class="row">
         <?php
         foreach ($all_permissions as $key => $value) {
@@ -6,7 +9,7 @@
         ?>
                 <div class="form-group col-md-12 permission-head">
                     <div class="form-check form-switch">
-                        <input class="form-check-input head-title" type="checkbox" value="<?= $value['id'] ?>" id="<?= $value['name'] ?>" <?= $value['status'] == '1' ? '' : 'disabled' ?>>
+                        <input class="form-check-input head-title" type="checkbox" value="<?= $value['id'] ?>" id="<?= $value['name'] ?>" <?= $value['status'] == '1' ? '' : 'disabled' ?> <?=in_array($value['id'],$permissions)?"checked":""?>>
                         <label class="form-check-label" for="<?= $value['name'] ?>">
                             <h5><?= $value['display_name'] ?></h5>
                         </label>
@@ -19,7 +22,7 @@
                             if($value1['status']=='1'){
                         ?>
                             <div class="form-check col-md-2 each-permission">
-                                <input class="form-check-input" type="checkbox" value="<?= $value1['id'] ?>" id="<?= $value1['name'] ?>" <?= $value1['status'] == '1' ? '' : 'disabled' ?>>
+                                <input class="form-check-input" type="checkbox" value="<?= $value1['id'] ?>" id="<?= $value1['name'] ?>" <?= $value1['status'] == '1' ? '' : 'disabled' ?> <?=in_array($value1['id'],$permissions)?"checked":""?>>
                                 <label class="form-check-label" for="<?= $value1['name'] ?>">
                                     <?= $value1['display_name'] ?>
                                 </label>

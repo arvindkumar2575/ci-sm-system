@@ -8,11 +8,15 @@ class Common extends Model
         $this->db = \Config\Database::connect();
     }
 
-    public function data_insert($table=null, array $data=null)
+    public function data_insert($table=null, array $data=null,string $type='single')
     {
         $query=false;
         if(isset($table)){
-            $query = $this->db->table($table)->insert($data);
+            if($type=="single"){
+                $query = $this->db->table($table)->insert($data);
+            }else{
+                $query = $this->db->table($table)->insertBatch($data);
+            }
             $id = $this->db->insertID();
             return $id;
         }else{
@@ -69,6 +73,8 @@ class Common extends Model
         }
         return $result;
     }
+
+    
 
     public function getSearchQuery($q)
     {
@@ -140,13 +146,94 @@ class Common extends Model
         return $result;
     }
 
+    // get permission of user of permission details
     public function getUserPermissions($id)
     {
-        $sql = 'SELECT tp.* FROM tbl_user_permissions as tup
-        LEFT JOIN tbl_permissions as tp on tp.id=tup.permission_id
+        $sql = 'SELECT tp.* FROM tbl_permissions as tp
+        LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
         WHERE tup.user_id='.$id.' AND tp.status=1';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
+        // echo $this->db->lastQuery;echo "<pre>";print_r($result);die;
         return $result;
     }
+
+    // get permission of user in single array i.e, [2,4,1] 
+    public function getUserPermissionsIds($id)
+    {
+        $sql = 'SELECT tup.permission_id FROM tbl_user_permissions as tup
+        WHERE tup.user_id='.$id.'';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        $result = array_column($result, 'permission_id');
+        // echo $this->db->lastQuery;
+        return $result;
+    }
+
+    public function deleteUserPermissions($uid,array $pids)
+    {
+        $permission_ids=''.implode(',',$pids).'';
+        $sql = 'DELETE FROM tbl_user_permissions WHERE user_id='.$uid.' AND permission_id IN ('.$permission_ids.')';
+        $query = $this->db->query($sql);
+        // echo $this->db->lastQuery;
+        return $query;
+    }
+
+    public function addUserPermissions($uid,array $ids)
+    {
+        $values='';
+        $count=1;
+        foreach ($ids as $key => $value) {
+            if($count!=1){
+                $values.=',';
+            }
+            $values.='('.$uid.','.$value.')';
+            $count++;
+        }
+        // echo '<pre>';print_r($values);die;
+        $sql = 'INSERT INTO tbl_user_permissions (user_id,permission_id) VALUES '.$values.'';
+        $query = $this->db->query($sql);
+        // echo $this->db->lastQuery;
+        return $query;
+    }
+
+    public function deleteRolePermissions($uid,array $pids)
+    {
+        $permission_ids=''.implode(',',$pids).'';
+        $sql = 'DELETE FROM tbl_roles_permissions WHERE role_id='.$uid.' AND permission_id IN ('.$permission_ids.')';
+        $query = $this->db->query($sql);
+        // echo $this->db->lastQuery;
+        return $query;
+    }
+
+    public function addRolePermissions($uid,array $ids)
+    {
+        $values='';
+        $count=1;
+        foreach ($ids as $key => $value) {
+            if($count!=1){
+                $values.=',';
+            }
+            $values.='('.$uid.','.$value.')';
+            $count++;
+        }
+        // echo '<pre>';print_r($values);die;
+        $sql = 'INSERT INTO tbl_roles_permissions (role_id,permission_id) VALUES '.$values.'';
+        $query = $this->db->query($sql);
+        // echo $this->db->lastQuery;
+        return $query;
+    }
+
+    // get permission of role in single array i.e, [2,4,1] 
+    public function getRolePermissionsIds($id)
+    {
+        $sql = 'SELECT trp.permission_id FROM tbl_roles_permissions as trp
+        WHERE trp.role_id='.$id.'';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        $result = array_column($result, 'permission_id');
+        // echo $this->db->lastQuery;
+        return $result;
+    }
+
 }

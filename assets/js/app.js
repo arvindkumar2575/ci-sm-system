@@ -69,7 +69,7 @@ $(document).on("submit","form#edit-user-form",function (e) {
 
 $(document).on("submit","form#edit-user-permissions-form",function (e) {
     e.preventDefault()
-    user.savepermission()
+    user.savepermission(this)
 })
 
 $(document).on("click","button.user-table-btn-permissions",function (e) {
@@ -104,9 +104,19 @@ $(document).on("submit","form#edit-role-form",function (e) {
     role.save()
 });
 
+$(document).on("submit","form#edit-role-permissions-form",function (e) {
+    e.preventDefault()
+    role.savepermission(this)
+})
+
 $(document).on("click","button.role-table-btn-edit",function (e) {
     let id = $(this).data('role-id');
     role.edit(id)
+})
+
+$(document).on("click","button.role-table-btn-permissions",function (e) {
+    let id = $(this).data('role-id');
+    role.editpermission(id)
 })
 
 $(document).on("click","button.role-table-btn-delete",function (e) {
