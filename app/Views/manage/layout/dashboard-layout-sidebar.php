@@ -40,13 +40,36 @@ $all_permissions = $u->menuList($userpermissions);
             <hr class="sidebar-divider my-0">
             <!-- Divider -->
 
+            
             <?php
-            // foreach ($variable as $key => $value) {
-            //     # code...
-            // }
+            foreach ($all_permissions as $key => $value) {
+                ?>
+                <div class="sidebar-module">
+                    <div class="sidebar-heading px-2 mt-2 nav-item-head listpm" data-pm="<?=$value["id"]?>">
+                        <?=$value["display_name"]?> 
+                    </div>
+                    <ul>
+                    <?php
+                    foreach ($value["list"] as $key1 => $value1) {
+                        ?>
+                        <li class="nav-item">
+                            <a class="nav-link listpm" href="<?=manageURL($value1["routing_url"])?>" data-pm="<?=$value1["id"]?>">
+                                <i class="fas fa-fw fa-chart-area"></i>
+                                <span><?=$value1["display_name"]?></span>
+                            </a>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                    </ul>
+                    
+                </div>
+                <?php
+                # code...
+            }
             ?>
 
-
+<?php /*
             <div class="sidebar-module">
                 <div class="sidebar-heading px-2 mt-2 nav-item-head">
                     Users 
@@ -124,7 +147,7 @@ $all_permissions = $u->menuList($userpermissions);
             </div>
 
 
-
+*/ ?>
 
 
         </div>

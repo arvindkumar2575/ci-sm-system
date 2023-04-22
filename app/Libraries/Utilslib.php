@@ -29,6 +29,7 @@ class Utilslib
     {
         $menu = array();
         $sort_value = array_column($arr, 'parent');
+        // echo '<pre>';print_r($arr);die;
         array_multisort($sort_value, SORT_ASC, $arr);
         foreach ($arr as $key => $value) {
             if ($value['parent'] == 0) {
@@ -36,7 +37,6 @@ class Utilslib
             } else {
                 if (isset($menu[$value['parent']]['list'])) {
                     array_push($menu[$value['parent']]['list'], $value);
-                    // echo '<pre>';print_r($menu);die;
                 } else {
                     $menu[$value['parent']]['list'] = array();
                     array_push($menu[$value['parent']]['list'], $value);

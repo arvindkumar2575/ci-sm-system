@@ -26,6 +26,9 @@ class APIUsers extends BaseController
 
     public function addEditUser()
     {
+        // $userId = $_SESSION['usersession']['id'];
+        // $userpermissions = $this->common->getUserPermissions($userId);
+        // echo '<pre>';print_r($userpermissions);die;
         $form_type = $this->request->getVar('form_type');
         if($form_type=="ADD_USER"){
             // echo '<pre>';print_r($this->request);die;
@@ -180,6 +183,7 @@ class APIUsers extends BaseController
             $data['user'] = $this->userModel->getUserDetails($data['id']);
             $form = view('manage/users/add-edit-user-form', $data);
         }elseif($action=='permission_user'){
+            $data['form_type'] = 'user';
             $permissions = $this->common->getAllPermissions();
             $data['all_permissions'] = $this->utilslib->menuList($permissions);
             $form = view('manage/users/add-edit-permission-form', $data);

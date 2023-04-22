@@ -42,7 +42,7 @@ class Users extends BaseController
 
     public function addUser()
     {
-        if (checkSession()) {
+        if (checkSession() && $this->common->checkUriPermission()) {
             $data = array();
             $data['title'] = 'Add Users';
             $data['heading_title'] = 'Add Users';
@@ -116,7 +116,6 @@ class Users extends BaseController
         }
     }
 
-    
     public function editRolePermissions()
     {
         $id = $this->request->getVar('uid');

@@ -3,9 +3,11 @@ namespace App\Models;
 use CodeIgniter\Model;
 class Common extends Model
 {
+    protected $uri_segment;
     public function __construct()
     {
         $this->db = \Config\Database::connect();
+        $this->uri_segment = service('uri');
     }
 
     public function data_insert($table=null, array $data=null,string $type='single')
@@ -149,9 +151,17 @@ class Common extends Model
     // get permission of user of permission details
     public function getUserPermissions($id)
     {
-        $sql = 'SELECT tp.* FROM tbl_permissions as tp
-        LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
-        WHERE tup.user_id='.$id.' AND tp.status=1';
+        $sql = 'SELECT tb.* FROM tbl_permissions as tb 
+        WHERE tb.id IN (
+            SELECT tb.parent as id FROM (SELECT tp.* FROM tbl_permissions as tp
+            LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
+            WHERE tup.user_id='.$id.' AND tp.status=1) as tb
+            UNION
+            SELECT tb.id FROM (SELECT tp.* FROM tbl_permissions as tp
+            LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
+            WHERE tup.user_id='.$id.' AND tp.status=1) as tb
+            )
+        ORDER BY tb.id ASC';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         // echo $this->db->lastQuery;echo "<pre>";print_r($result);die;
@@ -234,6 +244,23 @@ class Common extends Model
         $result = array_column($result, 'permission_id');
         // echo $this->db->lastQuery;
         return $result;
+    }
+
+
+    public function checkUriPermission()
+    {
+        $session = session('usersession');
+        $uri = $this->uri_segment->getSegment(2);
+        $user_id = $session['id'];
+        $sql = 'SELECT tp.id FROM `tbl_permissions` as tp
+        LEFT JOIN tbl_user_permissions as tup on tp.id=tup.permission_id
+        WHERE tup.user_id='.$user_id.' AND tp.routing_url="'.$uri.'"';
+        $result = $this->db->query($sql)->getRowArray();
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
