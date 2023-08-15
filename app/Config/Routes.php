@@ -53,19 +53,20 @@ $routes->group("manage", function($routes){
     $routes->get('dashboard', 'Manage::dashboard');
     $routes->get('(:num)/dashboard', 'Manage::dashboard');
 
-    $routes->get('users', 'Users::index');
+    $routes->get('users', 'Users::user');
     $routes->get('add-user', 'Users::addUser');
     $routes->get('edit-user', 'Users::editUser');
     $routes->get('user-permissions', 'Users::editUserPermissions');
 
-    $routes->get('roles', 'Manage::roles');
-    $routes->get('add-role', 'Manage::addRole');
-    $routes->get('edit-role', 'Manage::editRole');
-    $routes->get('role-permissions', 'Users::editRolePermissions');
+    $routes->get('roles', 'Roles::roles');
+    $routes->get('add-role', 'Roles::addRole');
+    $routes->get('edit-role', 'Roles::editRole');
+    $routes->get('role-permissions', 'Roles::editRolePermissions');
     
-    $routes->get('permissions', 'Manage::permissions');
-    $routes->get('add-permission', 'Manage::addPermission');
-    $routes->get('edit-permission', 'Manage::editPermission');
+    $routes->get('permissions', 'Permissions::permissions');
+    $routes->get('add-permission', 'Permissions::addPermission');
+    $routes->get('edit-permission', 'Permissions::editPermission');
+    
     
     $routes->get('students', 'Manage::students');
     $routes->get('add-student', 'Manage::addStudent');

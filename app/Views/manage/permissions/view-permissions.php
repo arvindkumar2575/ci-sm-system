@@ -38,10 +38,10 @@
                 foreach ($permissions as $key => $value) {
                 ?>
                     <tr <?=($value['status']=='0'?'style="background-color: #ffb6b6;"':'')?>>
-                        <td><?=$value['id']?></td>
-                        <td><?=$value['display_name'].' ('.$value['name'].')'?></td>
-                        <td><?=$value['routing_url']?></td>
-                        <td><?=$value['parent']?></td>
+                        <td <?= $value['menu_visibility']=='1'?'':'style="opacity:0.5"' ?> ><?=$value['id']?></td>
+                        <td <?= $value['menu_visibility']=='1'?'':'style="opacity:0.5"' ?> ><?=$value['display_name'].' ('.$value['name'].')'?></td>
+                        <td <?= $value['menu_visibility']=='1'?'':'style="opacity:0.5"' ?> ><?='/'.$value['routing_url']?></td>
+                        <td <?= $value['menu_visibility']=='1'?'':'style="opacity:0.5"' ?> ><?=$value['parent']?></td>
                         <td>
                             <button class="btn btn-success permission-table-btn-edit" type="button" data-permission-id="<?=$value['id']?>"><i class="fas fa-edit"></i></button>
                             <button class="btn btn-danger permission-table-btn-delete" type="button" data-permission-id="<?=$value['id']?>"><i class="fas fa-solid fa-trash"></i></button>

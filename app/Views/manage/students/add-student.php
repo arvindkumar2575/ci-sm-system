@@ -6,43 +6,89 @@
     <h1 class="h3 mb-0 text-gray-800"><?= $heading_title ?></h1>
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
 </div>
-<form name="<?= $form_btn ?>-role-form" id="<?= $form_btn ?>-role-form" class="<?= $form_btn ?>-role-form">
+<form name="<?= $form_btn ?>-student-form" id="<?= $form_btn ?>-student-form" class="<?= $form_btn ?>-student-form">
     <div class="row">
 
         <?php
         $selected_val = '';
-        if (isset($role['name']) && !empty($role['name']) && is_string($role['name'])) {
-            $selected_val = $role['name'];
+        if (isset($student['email']) && !empty($student['email']) && is_string($student['email'])) {
+            $selected_val = $student['email'];
         }
         ?>
         <div class="form-group col-md-6">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Name" <?= ($selected_val == '') ? '' : 'disabled' ?>>
+            <label for="email">Email Id</label>
+            <input type="text" class="form-control" id="email" name="email" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Email Id" <?= ($selected_val == '') ? '' : 'disabled' ?>>
         </div>
+
+
+
 
 
         <?php
         $selected_val = '';
-        if (isset($role['display_name']) && !empty($role['display_name']) && is_string($role['display_name'])) {
-            $selected_val = $role['display_name'];
+        if (isset($student['student_name']) && !empty($student['student_name']) && is_string($student['student_name'])) {
+            $selected_val = $student['student_name'];
         }
         ?>
         <div class="form-group col-md-6">
-            <label for="display_name">Display Name</label>
-            <input type="text" class="form-control" id="display_name" name="display_name" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Display Name">
+            <label for="student_name">Display Name</label>
+            <input type="text" class="form-control" id="student_name" name="student_name" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Student Name" <?= ($selected_val == '') ? '' : 'disabled' ?>>
         </div>
+
+
+
+
 
 
         <?php
         $selected_val = '';
-        if (isset($role['remarks']) && !empty($role['remarks']) && is_numeric($role['remarks'])) {
-            $selected_val = $role['remarks'];
+        if (isset($student['first_name']) && !empty($student['first_name']) && is_string($student['first_name'])) {
+            $selected_val = $student['first_name'];
         }
         ?>
-        <div class="form-group col-md-6">
-            <label for="remarks">Remarks</label>
-            <textarea type="text" class="form-control" id="remarks" name="remarks" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Remarks"></textarea>
+        <div class="form-group col-md-3">
+            <label for="first_name">First Name</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="First Name">
         </div>
+
+
+
+
+
+
+        <?php
+        $selected_val = '';
+        if (isset($student['last_name']) && !empty($student['last_name']) && is_string($student['last_name'])) {
+            $selected_val = $student['last_name'];
+        }
+        ?>
+        <div class="form-group col-md-3">
+            <label for="last_name">Last Name</label>
+            <input type="text" class="form-control" id="last_name" name="last_name" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Last Name">
+        </div>
+
+
+
+
+        
+
+        <?php
+        $selected = 'selected';
+        $selected_val = 1;
+        if (isset($student['status']) && $student['status']=='0') {
+            $selected_val = $student['status'];
+        }
+        ?>
+        <div class="form-group col-md-3">
+            <label for="status">Status</label>
+            <select id="status" class="form-control" name="status">
+                <option value="1" <?= ($selected_val == 1) ? $selected : '' ?>>Active</option>
+                <option value="0" <?= ($selected_val == 0) ? $selected : '' ?>>InActive</option>
+            </select>
+        </div>
+
+
+        
 
 
 
@@ -52,11 +98,11 @@
         $form_name = '';
         if ($form_btn == 'add') {
             $btn_class = 'success';
-            $form_name = 'ADD_ROLE';
+            $form_name = 'ADD_STUDENT';
 
         } else if ($form_btn == 'edit') {
             $btn_class = 'primary';
-            $form_name = 'EDIT_ROLE';
+            $form_name = 'EDIT_STUDENT';
         }
         ?>
         <input type="hidden" name="form_type" value="<?=$form_name?>" />

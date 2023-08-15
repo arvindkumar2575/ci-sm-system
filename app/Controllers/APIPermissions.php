@@ -32,6 +32,7 @@ class APIPermissions extends BaseController
             $remarks = $this->request->getVar('remarks');
             $routing_url = $this->request->getVar('routing_url');
             $status = $this->request->getVar('status');
+            $menu_visibility = $this->request->getVar('menu_visibility') ?? 0;
 
             $isPermissionExit = 0;
             if (!empty($name)) {
@@ -42,7 +43,7 @@ class APIPermissions extends BaseController
             }
             // var_dump(!$isPermissionExit);die();
             if (!$isPermissionExit) {
-                $permission_id = $this->addeditPermissionData($form_type, '', $name, $display_name, $parent, $priority, $remarks, $routing_url, $status);
+                $permission_id = $this->addeditPermissionData($form_type, '', $name, $display_name, $parent, $priority, $remarks, $routing_url, $status, $menu_visibility);
                 if ($permission_id) {
                     $result = array('status' => true, 'message' => 'Successfully role added!', 'id' => $permission_id);
                     return json_encode($result);
@@ -64,6 +65,7 @@ class APIPermissions extends BaseController
             $remarks = $this->request->getVar('remarks');
             $routing_url = $this->request->getVar('routing_url');
             $status = $this->request->getVar('status');
+            $menu_visibility = $this->request->getVar('menu_visibility');
 
             $isPermissionExit = 0;
             if (!empty($name)) {
@@ -73,7 +75,7 @@ class APIPermissions extends BaseController
                 return json_encode($result);
             }
             if ($isPermissionExit) {
-                $permission_id = $this->addeditPermissionData($form_type, $id, $name, $display_name, $parent, $priority, $remarks, $routing_url, $status);
+                $permission_id = $this->addeditPermissionData($form_type, $id, $name, $display_name, $parent, $priority, $remarks, $routing_url, $status, $menu_visibility);
                 if ($permission_id) {
                     $result = array('status' => true, 'message' => 'Successfully permission saved!', 'id' => $permission_id);
                     return json_encode($result);
@@ -91,7 +93,7 @@ class APIPermissions extends BaseController
         }
     }
 
-    private function addeditPermissionData($form_type, $id, $name, $display_name, $parent, $priority, $remarks, $routing_url, $status)
+    private function addeditPermissionData($form_type, $id, $name, $display_name, $parent, $priority, $remarks, $routing_url, $status, $menu_visibility)
     {
         if ($form_type == 'ADD_PERMISSION') {
             $permission_data = array(
@@ -101,7 +103,8 @@ class APIPermissions extends BaseController
                 'priority' => $priority,
                 'remarks' => $remarks,
                 'routing_url' => $routing_url,
-                'status' => $status
+                'status' => $status,
+                'menu_visibility' => $menu_visibility
             );
             // echo '<pre>';print_r($permission_data);die;
             $permission_id = $this->common->data_insert('tbl_permissions', $permission_data);
@@ -120,7 +123,8 @@ class APIPermissions extends BaseController
                 'priority' => $priority,
                 'remarks' => $remarks,
                 'routing_url' => $routing_url,
-                'status' => $status
+                'status' => $status,
+                'menu_visibility' => $menu_visibility
             );
             $permission_id = $this->common->data_single_update('tbl_permissions', $where, $permission_data);
             if ($permission_id) {
@@ -166,9 +170,18 @@ class APIPermissions extends BaseController
             $add_ids = array_diff($ids,$permission_ids);
             if(!empty($delete_ids)){
                 $result = $this->common->deleteUserPermissions($id,$delete_ids);
+                $sp = $this->session->get('usersession');
+                $usp = array_diff($sp['permissions'],$delete_ids);
+                $sp['permissions']=$usp;
+                $this->session->set('usersession',$sp);
+
             }
             if(!empty($add_ids)){
                 $result = $this->common->addUserPermissions($id,$add_ids);
+                $sp = $this->session->get('usersession');
+                $usp = array_merge($sp['permissions'],$add_ids);
+                $sp['permissions']=$usp;
+                $this->session->set('usersession',$sp);
             }
             if($result){
                 $result = array('status' => true, 'message' => 'User Permissions are updated!');

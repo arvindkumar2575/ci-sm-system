@@ -69,4 +69,17 @@ class Utilslib
         // echo $tr;die;
         return $tr;
     }
+
+    public function getPermissionFromPermissionList(array $list,$id){
+        $permission = array();
+        return $permission;
+    }
+
+    /*
+    * $permissions is an array()
+    *
+    */
+    public function permissionOptionFlow(array $permissions){
+        return $permissions;
+    }
 }

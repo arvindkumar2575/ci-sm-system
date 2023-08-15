@@ -87,6 +87,8 @@ class Common extends Model
         return $result;
     }
 
+
+
     public function getAllPermissions()
     {
         $sql = 'SELECT * FROM tbl_permissions';
@@ -97,7 +99,7 @@ class Common extends Model
 
     public function getPermissionList()
     {
-        $sql = 'SELECT id,display_name FROM tbl_permissions';
+        $sql = 'SELECT id,routing_url,name,display_name,parent,priority,remarks,status,menu_visibility FROM tbl_permissions';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
@@ -110,6 +112,8 @@ class Common extends Model
         $result = $query->getRowArray();
         return $result;
     }
+
+
 
     public function getAllRoles()
     {
@@ -148,6 +152,8 @@ class Common extends Model
         return $result;
     }
 
+
+    
     // get permission of user of permission details
     public function getUserPermissions($id)
     {
@@ -249,18 +255,61 @@ class Common extends Model
 
     public function checkUriPermission()
     {
+        // echo "<pre>";print_r($_SESSION);die;
         $session = session('usersession');
         $uri = $this->uri_segment->getSegment(2);
-        $user_id = $session['id'];
-        $sql = 'SELECT tp.id FROM `tbl_permissions` as tp
-        LEFT JOIN tbl_user_permissions as tup on tp.id=tup.permission_id
-        WHERE tup.user_id='.$user_id.' AND tp.routing_url="'.$uri.'"';
-        $result = $this->db->query($sql)->getRowArray();
-        if($result){
-            return true;
-        }else{
-            return false;
+        $permissions = $session['permissions']; 
+        $all_permissions = $session['all_permissions'];
+        // echo "<pre>";var_dump($uri,$permissions,$all_permissions);die;
+        $result = false;
+        foreach ($all_permissions as $key => $value) {
+            if($value['routing_url']==$uri && in_array($value['id'],$permissions)){
+                $result=true;
+            }
         }
+        return $result;
+    }
+
+
+    public function getMenuList($id)
+    {
+        $sql = 'SELECT tb.* FROM tbl_permissions as tb 
+        WHERE tb.id IN (
+            SELECT tb.parent as id FROM (SELECT tp.* FROM tbl_permissions as tp
+            LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
+            WHERE tup.user_id='.$id.' AND tp.status=1 AND tp.menu_visibility=1) as tb
+            UNION
+            SELECT tb.id FROM (SELECT tp.* FROM tbl_permissions as tp
+            LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
+            WHERE tup.user_id='.$id.' AND tp.status=1 AND tp.menu_visibility=1) as tb
+            )
+        ORDER BY tb.id ASC';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        // echo $this->db->lastQuery;echo "<pre>";print_r($result);die;
+        return $result;
+    }
+
+
+
+
+
+    public function getAllStudents()
+    {
+        $sql = 'SELECT id,email,CONCAT(first_name," ",last_name) as name,status FROM tbl_user WHERE user_type=1';
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function getStudent($id)
+    {
+        $sql = 'SELECT id,email,first_name,last_name,CONCAT(first_name," ",last_name) as student_name,status FROM tbl_user WHERE id='.$id.'';
+        $query = $this->db->query($sql);
+        $result = $query->getRowArray();
+        // echo $this->db->lastQuery;die;
+        // echo '<pre>';print_r($result);die;
+        return $result;
     }
 
 }

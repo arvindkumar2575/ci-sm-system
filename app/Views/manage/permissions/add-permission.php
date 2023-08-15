@@ -75,11 +75,27 @@
             $selected_val = $permission['status'];
         }
         ?>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4">
             <label for="status">Status</label>
             <select id="status" class="form-control" name="status">
                 <option value="1" <?= ($selected_val == 1) ? $selected : '' ?>>Active</option>
                 <option value="0" <?= ($selected_val == 0) ? $selected : '' ?>>InActive</option>
+            </select>
+        </div>
+
+
+        <?php
+        $selected = 'selected';
+        $selected_val = 1;
+        if (isset($permission['menu_visibility']) && $permission['menu_visibility']=='0') {
+            $selected_val = $permission['menu_visibility'];
+        }
+        ?>
+        <div class="form-group col-md-4">
+            <label for="menu_visibility">Menu Visibility</label>
+            <select id="menu_visibility" class="form-control" name="menu_visibility">
+                <option value="1" <?= ($selected_val == 1) ? $selected : '' ?>>Yes</option>
+                <option value="0" <?= ($selected_val == 0) ? $selected : '' ?>>No</option>
             </select>
         </div>
 
@@ -90,7 +106,7 @@
             $selected_val = $permission['priority'];
         }
         ?>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4">
             <label for="priority">Priority</label>
             <input type="text" class="form-control" id="priority" name="priority" value="<?= $selected_val == '' ? '' : $selected_val ?>" placeholder="Priority">
         </div>

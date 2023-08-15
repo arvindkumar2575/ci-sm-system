@@ -124,120 +124,7 @@ class Manage extends BaseController
 
 
     
-    // roles methods 
-    public function roles()
-    {
-        if(checkSession()){
-            $data = array();
-            $data['title'] = 'Roles';
-            $data['heading_title'] = 'Roles';
-            $data['menu_active'] = 'roles';
-            $data['roles'] = $this->common->getAllRoles();
-            return view('manage/roles/view-roles',$data);
-        }else{
-            return redirect()->to('manage/login');
-        }
-    }
-
-    public function addRole()
-    {
-        if(checkSession()){
-            $data = array();
-            $data['title'] = 'Add Role';
-            $data['heading_title'] = 'Add Role';
-            $data['menu_active'] = 'add_roles';
-            $data['role_list'] = $this->common->getRoleList();
-            $data['form_btn'] = 'add';
-            return view('manage/roles/add-role',$data);
-        }else{
-            return redirect()->to('manage/roles');
-        }
-    }
-
-    public function editRole()
-    {
-        $id = $this->request->getVar('id');
-        if(checkSession()){
-            if(isset($id) && !empty($id) && is_numeric($id)){
-                $data = array();
-                $data['role_id'] = $id;
-                $data['title'] = 'Roles';
-                $data['heading_title'] = 'Roles';
-                $data['menu_active'] = 'add_roles';
-                $data['form_btn'] = 'edit';
-                $data['role_list'] = $this->common->getRoleList();
-                $data['role'] = $this->common->getRole($id);
-                if(isset($data['role'])){
-                    // echo '<pre>';print_r($data);die;
-                    return view('manage/roles/add-role',$data);
-                }else{
-                    return redirect()->to('manage/roles');
-                }
-            }else{
-                return redirect()->to('manage/roles');
-            }
-        }else{
-            return redirect()->to('manage/roles');
-        }
-    }
-
-
-    // permissions methods
-    public function permissions()
-    {
-        if(checkSession()){
-            $data = array();
-            $data['title'] = 'Permissions';
-            $data['heading_title'] = 'Permissions';
-            $data['menu_active'] = 'permissions';
-            $data['permissions'] = $this->common->getAllPermissions();
-            return view('manage/permissions/view-permissions',$data);
-        }else{
-            return redirect()->to('manage/login');
-        }
-    }
-
-    public function addPermission()
-    {
-        if(checkSession()){
-            $data = array();
-            $data['title'] = 'Add permission';
-            $data['heading_title'] = 'Add permission';
-            $data['menu_active'] = 'add_permissions';
-            $data['permission_list'] = $this->common->getPermissionList();
-            $data['form_btn'] = 'add';
-            return view('manage/permissions/add-permission',$data);
-        }else{
-            return redirect()->to('manage/roles');
-        }
-    }
-
-    public function editPermission()
-    {
-        $id = $this->request->getVar('id');
-        if(checkSession()){
-            if(isset($id) && !empty($id) && is_numeric($id)){
-                $data = array();
-                $data['permission_id'] = $id;
-                $data['title'] = 'Permissions';
-                $data['heading_title'] = 'Permissions';
-                $data['menu_active'] = 'add_permissions';
-                $data['form_btn'] = 'edit';
-                $data['permission_list'] = $this->common->getPermissionList();
-                $data['permission'] = $this->common->getPermission($id);
-                if(isset($data['permission'])){
-                    // echo '<pre>';print_r($data);die;
-                    return view('manage/permissions/add-permission',$data);
-                }else{
-                    return redirect()->to('manage/permissions');
-                }
-            }else{
-                return redirect()->to('manage/permissions');
-            }
-        }else{
-            return redirect()->to('manage/permissions');
-        }
-    }
+    
 
 
 
@@ -253,10 +140,51 @@ class Manage extends BaseController
             $data['title'] = 'Students';
             $data['heading_title'] = 'Students';
             $data['menu_active'] = 'students';
-            $data['roles'] = $this->common->getAllRoles();
-            return view('manage/roles/view-roles',$data);
+            $data['students'] = $this->common->getAllStudents();
+            // echo '<pre>';print_r($data);die;
+            return view('manage/students/view-student',$data);
         }else{
             return redirect()->to('manage/login');
+        }
+    }
+
+    public function addStudent()
+    {
+        if(checkSession()){
+            $data = array();
+            $data['title'] = 'Add Student';
+            $data['heading_title'] = 'Add Student';
+            $data['menu_active'] = 'add_students';
+            $data['form_btn'] = 'add';
+            return view('manage/students/add-student',$data);
+        }else{
+            return redirect()->to('manage/roles');
+        }
+    }
+
+    public function editStudent()
+    {
+        $id = $this->request->getVar('id');
+        if(checkSession()){
+            if(isset($id) && !empty($id) && is_numeric($id)){
+                $data = array();
+                $data['id'] = $id;
+                $data['title'] = 'Edit Students';
+                $data['heading_title'] = 'Edit Students';
+                $data['menu_active'] = 'edit_students';
+                $data['form_btn'] = 'edit';
+                $data['student'] = $this->common->getStudent($id);
+                if(isset($data['student'])){
+                    // echo '<pre>';print_r($data);die;
+                    return view('manage/students/add-student',$data);
+                }else{
+                    return redirect()->to('manage/students');
+                }
+            }else{
+                return redirect()->to('manage/students');
+            }
+        }else{
+            return redirect()->to('manage/students');
         }
     }
 

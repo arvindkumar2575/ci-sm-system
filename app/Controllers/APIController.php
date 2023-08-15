@@ -33,11 +33,16 @@ class APIController extends BaseController
                 $pass = $data['password'];
                 $authenticatePass = password_verify($password,$pass);
                 if($authenticatePass){
-                    $perm = $this->common->get_data('tbl_user_permissions',array('user_id'=>$data['id']),array('permission_id'),'multiple');
+                    // $perm = $this->common->get_data('tbl_user_permissions',array('user_id'=>$data['id']),array('permission_id'),'multiple');
+                    $perm = $this->common->getUserPermissions($data['id']);
+                    $all_perm = $this->common->get_data('tbl_permissions',array('status'=>'1'),array('id,routing_url'),'multiple');
+
+                    // echo '<pre>';print_r($perm);die;
                     $usersession = array(
                         'id'=>$data['id'],
                         'isLoggedIn'=>true,
-                        'permissions'=>array_column($perm,'permission_id')
+                        'permissions'=>array_column($perm,'id'),
+                        'all_permissions'=>$all_perm
                     );
                     $this->session->set('usersession',$usersession);
                     $result = array('status'=>true,'message'=>'Successfully Logged In!','id'=>$data['id']);

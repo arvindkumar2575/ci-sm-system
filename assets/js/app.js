@@ -155,6 +155,32 @@ $(document).on("click","button.permission-table-btn-delete",function (e) {
 
 
 
+// student 
+$(document).on("submit","form#add-student-form",function (e) {
+    e.preventDefault()
+    student.add()
+});
+
+$(document).on("submit","form#edit-student-form",function (e) {
+    e.preventDefault()
+    student.save()
+});
+
+$(document).on("click","button.student-table-btn-edit",function (e) {
+    let id = $(this).data('student-id');
+    student.edit(id)
+})
+
+$(document).on("click","button.student-table-btn-delete",function (e) {
+    let id = $(this).data('student-id');
+    let val = confirm("Do you want to delete this student?")
+    if (val == true) {
+        student.delete(id)
+    }
+})
+
+
+
 
 
 $(document).on('keyup','input#name_email',function () {

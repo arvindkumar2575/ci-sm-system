@@ -6,7 +6,7 @@ use App\Models\Common;
 $c = new Common;
 $u = new Utilslib;
 $userId = $_SESSION['usersession']['id'];
-$userpermissions = $c->getUserPermissions($userId);
+$userpermissions = $c->getMenuList($userId);
 // echo '<pre>';print_r($userpermissions);die;
 $all_permissions = $u->menuList($userpermissions);
 // echo '<pre>';print_r($all_permissions);die;

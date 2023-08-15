@@ -4,6 +4,7 @@ let cookie = {};
 let user = {};
 let role = {};
 let permission = {};
+let student = {};
 let menu = {};
 let urlParams = new URLSearchParams(window.location.search);
 
@@ -547,6 +548,7 @@ permission.save = (id)=>{
     data.priority = $('input[name=priority]').val()
     data.routing_url = $('input[name=routing_url]').val()
     data.status = $('select[name=status]').val()
+    data.menu_visibility = $('select[name=menu_visibility]').val()
     data.remarks = $('textarea[name=remarks]').val()
     data.form_type = $("input[name=form_type]").val();
     data.id = urlParams.get('id')
@@ -566,6 +568,86 @@ permission.delete = (id)=>{
     common.ajaxCall(url,"POST",data,(res)=>{
         if (res.status) {
             window.location.href = manageURL + '/permissions'
+        }else{
+
+        }
+    })
+}
+
+
+
+// student 
+student.add = ()=>{
+    let url = manageURLAPI + '/add-student'
+    let data = {}
+
+    let student_name_elm = $('input[name=name]')
+    if (student_name_elm.val() == "") {
+        student_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.name = student_name_elm.val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    data.parent = $('select[name=parent]').val()
+    data.priority = $('input[name=priority]').val()
+    data.routing_url = $('input[name=routing_url]').val()
+    data.status = $('select[name=status]').val()
+    data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/students'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+student.edit = (id)=>{
+    window.location.href = manageURL+'/edit-student?id='+id
+}
+student.save = (id)=>{
+    let url = manageURLAPI + '/edit-student'
+    let data = {}
+
+    data.name = $('input[name=name]').val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    data.parent = $('select[name=parent]').val()
+    data.priority = $('input[name=priority]').val()
+    data.routing_url = $('input[name=routing_url]').val()
+    data.status = $('select[name=status]').val()
+    data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    data.id = urlParams.get('id')
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/students'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+student.delete = (id)=>{
+    let url = manageURLAPI + '/delete-student'
+    let data = {
+        id:id
+    }
+    common.ajaxCall(url,"POST",data,(res)=>{
+        if (res.status) {
+            window.location.href = manageURL + '/students'
         }else{
 
         }

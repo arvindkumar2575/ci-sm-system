@@ -26,9 +26,9 @@ class Users extends BaseController
     }
 
 
-    public function index()
+    public function user()
     {
-        if (checkSession()) {
+        if (checkSession() && $this->common->checkUriPermission()) {
             $data = array();
             $data['title'] = 'Users';
             $data['heading_title'] = 'Users';
@@ -58,7 +58,8 @@ class Users extends BaseController
     public function editUser()
     {
         $id = $this->request->getVar('uid');
-        if (checkSession()) {
+        // echo "<pre>";print_r($id);die;
+        if (checkSession() && $this->common->checkUriPermission()) {
             $data = array();
             $data['title'] = 'Edit Users';
             $data['heading_title'] = 'Edit Users';
@@ -78,6 +79,7 @@ class Users extends BaseController
             // echo '<pre>';print_r($data);die;
             return view('manage/users/add-edit-user', $data);
         } else {
+            // echo "<pre>";print_r($id);die;
             return redirect()->to('manage/login');
         }
     }
@@ -85,7 +87,7 @@ class Users extends BaseController
     public function editUserPermissions()
     {
         $id = $this->request->getVar('uid');
-        if (checkSession()) {
+        if (checkSession() && $this->common->checkUriPermission()) {
             $data = array();
             $data['title'] = 'Edit User Permissions';
             $data['heading_title'] = 'Edit User Permissions';
@@ -116,39 +118,7 @@ class Users extends BaseController
         }
     }
 
-    public function editRolePermissions()
-    {
-        $id = $this->request->getVar('uid');
-        if (checkSession()) {
-            $data = array();
-            $data['title'] = 'Edit Role Permissions';
-            $data['heading_title'] = 'Edit Role Permissions';
-            $data['menu_active'] = 'edit_role_permissions';
-            $data['form_btn'] = 'edit';
-            $data['form_type'] = 'role';
-            $data['role_permissions'] = array();
-            if($id){
-                $data['id'] = $id;
-                $data['role'] = $this->userModel->getRoleDetails($id);
-                // get role permission array 
-                $data['role_permissions'] =  $this->common->getRolePermissionsIds($id);
-                // get all permission in menu list 
-                $permissions = $this->common->getAllPermissions();
-                $data['all_permissions'] = $this->utilslib->menuList($permissions);
-                if($data['role']){
-                    $data['form'] = view('manage/users/add-edit-permission-form',$data);
-                }else{
-                    return redirect()->to('manage/user-permissions');
-                }
-            }else{
-                $data['form'] = '';
-            }
-            // echo '<pre>';print_r($data);die;
-            return view('manage/users/user-permissions', $data);
-        } else {
-            return redirect()->to('manage/login');
-        }
-    }
+    
 
 
 }
