@@ -3,11 +3,9 @@ namespace App\Models;
 use CodeIgniter\Model;
 class Common extends Model
 {
-    protected $uri_segment;
     public function __construct()
     {
         $this->db = \Config\Database::connect();
-        $this->uri_segment = service('uri');
     }
 
     public function data_insert($table=null, array $data=null,string $type='single')

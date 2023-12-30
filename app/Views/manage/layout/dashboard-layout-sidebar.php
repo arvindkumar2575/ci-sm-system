@@ -69,7 +69,7 @@ $all_permissions = $u->menuList($userpermissions);
             }
             ?>
 
-<?php /*
+        <?php /*
             <div class="sidebar-module">
                 <div class="sidebar-heading px-2 mt-2 nav-item-head">
                     Users 
@@ -147,7 +147,7 @@ $all_permissions = $u->menuList($userpermissions);
             </div>
 
 
-*/ ?>
+        */ ?>
 
 
         </div>

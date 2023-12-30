@@ -120,6 +120,21 @@ class Manage extends BaseController
 
 
 
+    public function prioritySet()
+    {
+        if(checkSession()){
+            $data = array();
+            $data['title'] = 'Priority Set';
+            $data['heading_title'] = 'Priority Set';
+            $data['menu_active'] = 'dashboard';
+            return view('manage/priority-set/priority-set',$data);
+        }else{
+           return redirect()->to('manage');
+        }
+    }
+
+
+
 
 
 

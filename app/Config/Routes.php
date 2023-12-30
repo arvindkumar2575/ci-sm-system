@@ -74,6 +74,10 @@ $routes->group("manage", function($routes){
 
 
 
+    $routes->get('priority-set', 'Manage::prioritySet');
+
+
+
     
 });
 
