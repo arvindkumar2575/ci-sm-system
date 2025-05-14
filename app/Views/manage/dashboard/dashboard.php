@@ -1,6 +1,8 @@
 <?= $this->extend("manage/layout/dashboard-layout") ?>
 
 <?= $this->section("content") ?>
+<h2><?= $heading_title ?></h2>
+<?php /*
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><?= $heading_title ?></h1>
@@ -304,5 +306,6 @@
 
     </div>
 </div>
+*/?>
 
 <?= $this->endSection() ?>

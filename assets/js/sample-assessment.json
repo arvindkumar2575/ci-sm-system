@@ -1,0 +1,46 @@
+{
+    "identifier": "9afa1eb7-c06c-4951-ba34-c51434f484e3",
+    "display_name": "Class 3",
+    "field_type": "MAIN",
+    "priority": 1,
+    "children": [
+        {
+            "identifier": "0574cafb-cc1c-49c7-9fde-5ea5537bd315",
+            "display_name": "Subjects",
+            "field_type": "TEXT",
+            "priority": 1,
+            "children": [
+                {
+                    "identifier": "f95c4b7d-7d18-4aea-bcf5-a779207ca45b",
+                    "display_name": "English",
+                    "field_type": "ASSESSMENT",
+                    "priority": 1,
+                    "detail": {
+                        "max": "100",
+                        "min": "33"
+                    }
+                },
+                {
+                    "identifier": "f95c4b7d-7d18-4aea-bcf5-a779207ca45b",
+                    "display_name": "Hindi",
+                    "field_type": "ASSESSMENT",
+                    "priority": 2,
+                    "detail": {
+                        "max": "100",
+                        "min": "33"
+                    }
+                },
+                {
+                    "identifier": "f95c4b7d-7d18-4aea-bcf5-a779207ca45b",
+                    "display_name": "Mathematics",
+                    "field_type": "ASSESSMENT",
+                    "priority": 3,
+                    "detail": {
+                        "max": "100",
+                        "min": "33"
+                    }
+                }
+            ]
+        }
+    ]
+}

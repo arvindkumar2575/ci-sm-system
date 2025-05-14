@@ -25,7 +25,7 @@ $routes->set404Override();
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
 // Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-// $routes->setAutoRoute(false);
+$routes->setAutoRoute(true);
 
 /*
  * --------------------------------------------------------------------
@@ -53,24 +53,32 @@ $routes->group("manage", function($routes){
     $routes->get('dashboard', 'Manage::dashboard');
     $routes->get('(:num)/dashboard', 'Manage::dashboard');
 
-    $routes->get('users', 'Users::user');
-    $routes->get('add-user', 'Users::addUser');
-    $routes->get('edit-user', 'Users::editUser');
-    $routes->get('user-permissions', 'Users::editUserPermissions');
+    $routes->get('users', 'UserManagement\Users::user');
+    $routes->get('add-user', 'UserManagement\Users::addUser');
+    $routes->get('edit-user', 'UserManagement\Users::editUser');
+    $routes->get('user-permissions', 'UserManagement\Users::editUserPermissions');
 
-    $routes->get('roles', 'Roles::roles');
-    $routes->get('add-role', 'Roles::addRole');
-    $routes->get('edit-role', 'Roles::editRole');
-    $routes->get('role-permissions', 'Roles::editRolePermissions');
+    $routes->get('roles', 'UserManagement\Roles::roles');
+    $routes->get('add-role', 'UserManagement\Roles::addRole');
+    $routes->get('edit-role', 'UserManagement\Roles::editRole');
+    $routes->get('role-permissions', 'UserManagement\Roles::editRolePermissions');
     
-    $routes->get('permissions', 'Permissions::permissions');
-    $routes->get('add-permission', 'Permissions::addPermission');
-    $routes->get('edit-permission', 'Permissions::editPermission');
+    $routes->get('permissions', 'UserManagement\Permissions::permissions');
+    $routes->get('add-permission', 'UserManagement\Permissions::addPermission');
+    $routes->get('edit-permission', 'UserManagement\Permissions::editPermission');
+
+    $routes->get('assessments', 'AssessmentManagement\Assessment::assessments');
+    $routes->get('assessments/(:any)', 'AssessmentManagement\Assessment::assessments');
+    $routes->get('add-assessment', 'AssessmentManagement\Assessment::addAssessment');
+    $routes->get('edit-assessment', 'AssessmentManagement\Assessment::editAssessment');
+
+    $routes->get('marks', 'AssessmentManagement\MarksUpload::marksUpload');
+    $routes->get('marks-upload/(:any)', 'AssessmentManagement\MarksUpload::addViewMarks'); //class
+    $routes->get('marks-upload/(:any)/(:any)', 'AssessmentManagement\MarksUploadId::addViewMarks'); //student
     
-    
-    $routes->get('students', 'Manage::students');
-    $routes->get('add-student', 'Manage::addStudent');
-    $routes->get('edit-student', 'Manage::editStudent');
+    $routes->get('students', 'StudentManagement\Students::students');
+    $routes->get('add-student', 'StudentManagement\Students::addStudent');
+    $routes->get('edit-student', 'StudentManagement\Students::editStudent');
 
 
 
@@ -95,6 +103,10 @@ $routes->group("manage/api", function($routes){
     $routes->post('add-permission', 'APIPermissions::addEditPermission');
     $routes->post('edit-permission', 'APIPermissions::addEditPermission');
     $routes->post('delete-permission', 'APIPermissions::deletePermission');
+    
+    $routes->post('add-assessment', 'APIAssessment::addEditAssessment');
+    $routes->post('edit-assessment', 'APIAssessment::addEditAssessment');
+    $routes->post('delete-assessment', 'APIAssessment::deleteAssessment');
 
     $routes->post('save-user-permission', 'APIPermissions::saveUserPermission');
     $routes->post('save-role-permission', 'APIRoles::saveRolePermission');

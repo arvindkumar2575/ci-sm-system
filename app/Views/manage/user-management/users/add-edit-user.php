@@ -1,0 +1,36 @@
+<?= $this->extend("manage/user-management/layout/dashboard-layout") ?>
+
+<?= $this->section("content") ?>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"><?= $heading_title ?></h1>
+</div>
+
+<?php
+if ($form_btn == 'edit') {
+?>
+    <div class="filter-form">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="name_email">Search here</label>
+                <input type="text" class="form-control" data-action_in="edit_user" id="name_email" name="q" placeholder="Search name/email here..." value="<?=$user['email']??''?>">
+                <div class="search-list">
+                </div>
+            </div>
+            <div class="col-md-6 form-search-btn">
+                <button type="button" class="btn btn-primary user-search-btn" data-btn="search">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
+
+
+<div id="add-edit-user-form" class="add-edit-user-form">
+    <?=$form?>
+</div>
+
+<?= $this->endSection() ?>

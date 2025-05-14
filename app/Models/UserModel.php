@@ -11,7 +11,7 @@ class UserModel extends Model
 
     public function isEmailExit($email)
     {
-        $query = $this->db->query('SELECT * FROM tbl_user WHERE email="'.$email.'"');
+        $query = $this->db->query('SELECT * FROM tbl_users WHERE email="'.$email.'"');
         // echo $this->db->lastQuery;die();
         $result = $query->getFirstRow();
         return $result;
@@ -19,7 +19,7 @@ class UserModel extends Model
 
     public function getUsers()
     {
-        $sql = 'SELECT * FROM tbl_user';
+        $sql = 'SELECT * FROM tbl_users';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
@@ -29,7 +29,7 @@ class UserModel extends Model
     {
         $result=array();
         try {
-            $sql = 'SELECT id,user_type,email,verified,first_name,last_name,gender_id,status,created_at,modified_at,deleted FROM tbl_user WHERE id='.$id.'';
+            $sql = 'SELECT id,user_type,email,verified,first_name,last_name,gender_id,status,created_at,modified_at,deleted_at FROM tbl_users WHERE id='.$id.'';
             $query = $this->db->query($sql);
             $result = $query->getRowArray();
             return $result;
@@ -43,7 +43,7 @@ class UserModel extends Model
     {
         $query=false;
         try {
-            $sql = 'UPDATE tbl_user SET deleted = "1" WHERE id = '.$id.'';
+            $sql = 'UPDATE tbl_users SET deleted = "1" WHERE id = '.$id.'';
             $query = $this->db->query($sql);
             return $query;
         } catch (\Throwable $th) {
@@ -54,7 +54,7 @@ class UserModel extends Model
 
     public function getGenderDetails()
     {
-        $sql = 'SELECT * FROM tbl_gender';
+        $sql = 'SELECT id,display_name,name FROM tbl_gender';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
@@ -78,7 +78,7 @@ class UserModel extends Model
 
     public function getUserTypes()
     {
-        $sql = 'SELECT id,name,display_name FROM tbl_user_type ORDER BY priority ASC';
+        $sql = 'SELECT id,name,display_name FROM tbl_users_type ORDER BY priority ASC';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;

@@ -138,7 +138,7 @@ class APIUsers extends BaseController
             'modified_at'=>$currentDate->format('Y-m-d H:i:s'),
         );
         // echo '<pre>';print_r($user_data);die;
-        $user_id = $this->common->data_insert('tbl_user',$user_data);
+        $user_id = $this->common->data_insert('tbl_users',$user_data);
         if($user_id){
             return $user_id;
         }else{
@@ -162,7 +162,7 @@ class APIUsers extends BaseController
             'modified_at'=>$currentDate->format('Y-m-d H:i:s'),
         );
         // echo '<pre>';print_r($user_data);die;
-        $user_id = $this->common->data_single_update('tbl_user', $where, $user_data);
+        $user_id = $this->common->data_single_update('tbl_users', $where, $user_data);
         if($user_id){
             return $id;
         }else{
@@ -181,12 +181,12 @@ class APIUsers extends BaseController
         // echo '<pre>';print_r($data);die;
         if($action=='edit_user'){
             $data['user'] = $this->userModel->getUserDetails($data['id']);
-            $form = view('manage/users/add-edit-user-form', $data);
+            $form = view('manage/user-management/users/add-edit-user-form', $data);
         }elseif($action=='permission_user'){
             $data['form_type'] = 'user';
             $permissions = $this->common->getAllPermissions();
             $data['all_permissions'] = $this->utilslib->menuList($permissions);
-            $form = view('manage/users/add-edit-permission-form', $data);
+            $form = view('manage/user-management/users/add-edit-permission-form', $data);
         }
         $result = array('status'=>true,'data'=>$form);
         return json_encode($result);

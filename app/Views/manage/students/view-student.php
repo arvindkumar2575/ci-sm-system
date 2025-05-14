@@ -4,9 +4,10 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><?= $heading_title ?></h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
 </div>
 
+<?php
+/*
 <div class="filter-form">
     <form class="row">
         <div class="col-md-3">
@@ -20,6 +21,8 @@
         </div>
     </form>
 </div>
+*/
+?>
 
 <div class="row">
     <div class="table-responsive col-md-12 ">

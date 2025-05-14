@@ -91,6 +91,11 @@ class Database extends Config
             $this->default['username'] = $_SERVER['DEV_DB_USERNAME'];
             $this->default['password'] = $_SERVER['DEV_DB_PASSWORD'];
             $this->default['database'] = $_SERVER['DEV_DB_DATABASE'];
+        }else if(ENVIRONMENT==='production'){
+            $this->default['hostname'] = $_SERVER['PROD_DB_HOSTNAME'];
+            $this->default['username'] = $_SERVER['PROD_DB_USERNAME'];
+            $this->default['password'] = $_SERVER['PROD_DB_PASSWORD'];
+            $this->default['database'] = $_SERVER['PROD_DB_DATABASE'];
         }
     }
 }

@@ -27,13 +27,13 @@ class APIController extends BaseController
         if($form_type=="login"){
             $email = $this->request->getVar('username');
             $password = $this->request->getVar('password');
-            $data = $this->common->get_single_row("tbl_user",array('email'=>$email),array());
+            $data = $this->common->get_single_row("tbl_users",array('email'=>$email),array());
             // echo '<pre>';print_r($data);die;
             if($data){
                 $pass = $data['password'];
                 $authenticatePass = password_verify($password,$pass);
                 if($authenticatePass){
-                    // $perm = $this->common->get_data('tbl_user_permissions',array('user_id'=>$data['id']),array('permission_id'),'multiple');
+                    // $perm = $this->common->get_data('tbl_users_permissions',array('user_id'=>$data['id']),array('permission_id'),'multiple');
                     $perm = $this->common->getUserPermissions($data['id']);
                     $all_perm = $this->common->get_data('tbl_permissions',array('status'=>'1'),array('id,routing_url'),'multiple');
 
@@ -63,8 +63,8 @@ class APIController extends BaseController
             $email = $this->request->getVar('email');
             $password = $this->request->getVar('password');
             $user_type = $this->request->getVar('user_type');
-            $details = $this->request->getVar('details');
             // $hashPass = password_hash($password,PASSWORD_BCRYPT);
+            // $hashPass = md5($password);
             
             $isEmailExit=0;
             if(!empty($user_type)){
@@ -75,7 +75,7 @@ class APIController extends BaseController
             }
             // echo 'isEmailExit';die();
             if(!$isEmailExit){
-                $user_id = $this->signUpData($email,$password,$user_type,$first_name,$last_name,$gender_id,$details);
+                $user_id = $this->signUpData($email,$password,$user_type,$first_name,$last_name,$gender_id);
                 if($user_id){
                     $result = array('status'=>true,'message'=>'Successfully Register!','id'=>$user_id);
                     return json_encode($result);
@@ -93,7 +93,7 @@ class APIController extends BaseController
         }
     }
 
-    private function signUpData($email,$password,$user_type,$first_name,$last_name,$gender_id,$details)
+    private function signUpData($email,$password,$user_type,$first_name,$last_name,$gender_id)
     {
         $currentDate = new DateTime();
         $user_data=array(
@@ -104,12 +104,11 @@ class APIController extends BaseController
             'first_name'=>$first_name,
             'last_name'=>$last_name,
             'gender_id'=>$gender_id,
-            'details'=>json_encode($details),
             'verification_code'=>md5($email),
             'created_at'=>$currentDate->format('Y-m-d H:i:s'),
             'modified_at'=>$currentDate->format('Y-m-d H:i:s'),
         );
-        $user_id = $this->common->data_insert('tbl_user',$user_data);
+        $user_id = $this->common->data_insert('tbl_users',$user_data);
         if($user_id){
             return $user_id;
         }else{

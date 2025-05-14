@@ -43,6 +43,7 @@ $all_permissions = $u->menuList($userpermissions);
             
             <?php
             foreach ($all_permissions as $key => $value) {
+                if(isset($value["list"]) && count($value["list"])>0){
                 ?>
                 <div class="sidebar-module">
                     <div class="sidebar-heading px-2 mt-2 nav-item-head listpm" data-pm="<?=$value["id"]?>">
@@ -65,6 +66,16 @@ $all_permissions = $u->menuList($userpermissions);
                     
                 </div>
                 <?php
+                }else{
+                    ?>
+                    <li class="nav-item-head ps-2">
+                        <a class="nav-link" href="<?=manageURL($value["routing_url"])?>" data-pm="<?=$value["id"]?>">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span><?=$value["display_name"]?></span>
+                        </a>
+                    </li>
+                    <?php
+                }
                 # code...
             }
             ?>

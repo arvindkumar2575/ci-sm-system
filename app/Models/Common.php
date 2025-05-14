@@ -3,9 +3,11 @@ namespace App\Models;
 use CodeIgniter\Model;
 class Common extends Model
 {
+    protected $uri_segment;
     public function __construct()
     {
         $this->db = \Config\Database::connect();
+        $this->uri_segment = service('uri');
     }
 
     public function data_insert($table=null, array $data=null,string $type='single')
@@ -19,6 +21,22 @@ class Common extends Model
             }
             $id = $this->db->insertID();
             return $id;
+        }else{
+            return $query;
+        }
+        
+    }
+
+    public function data_insert_without_insertID($table=null, array $data=null,string $type='single')
+    {
+        $query=false;
+        if(isset($table)){
+            if($type=="single"){
+                $query = $this->db->table($table)->insert($data);
+            }else{
+                $query = $this->db->table($table)->insertBatch($data);
+            }
+            return $query;
         }else{
             return $query;
         }
@@ -78,7 +96,7 @@ class Common extends Model
 
     public function getSearchQuery($q)
     {
-        $sql = 'SELECT id,email,first_name,last_name FROM tbl_user WHERE email LIKE "%'.$q.'%" OR first_name LIKE "%'.$q.'%" LIMIT 10';
+        $sql = 'SELECT id,email,first_name,last_name FROM tbl_users WHERE email LIKE "%'.$q.'%" OR first_name LIKE "%'.$q.'%" LIMIT 10';
         $query = $this->db->query($sql);
         // echo $this->db->lastQuery;die;
         $result = $query->getResultArray();
@@ -158,11 +176,11 @@ class Common extends Model
         $sql = 'SELECT tb.* FROM tbl_permissions as tb 
         WHERE tb.id IN (
             SELECT tb.parent as id FROM (SELECT tp.* FROM tbl_permissions as tp
-            LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
+            LEFT JOIN tbl_users_permissions as tup on tup.permission_id=tp.id
             WHERE tup.user_id='.$id.' AND tp.status=1) as tb
             UNION
             SELECT tb.id FROM (SELECT tp.* FROM tbl_permissions as tp
-            LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
+            LEFT JOIN tbl_users_permissions as tup on tup.permission_id=tp.id
             WHERE tup.user_id='.$id.' AND tp.status=1) as tb
             )
         ORDER BY tb.id ASC';
@@ -175,7 +193,7 @@ class Common extends Model
     // get permission of user in single array i.e, [2,4,1] 
     public function getUserPermissionsIds($id)
     {
-        $sql = 'SELECT tup.permission_id FROM tbl_user_permissions as tup
+        $sql = 'SELECT tup.permission_id FROM tbl_users_permissions as tup
         WHERE tup.user_id='.$id.'';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
@@ -187,7 +205,7 @@ class Common extends Model
     public function deleteUserPermissions($uid,array $pids)
     {
         $permission_ids=''.implode(',',$pids).'';
-        $sql = 'DELETE FROM tbl_user_permissions WHERE user_id='.$uid.' AND permission_id IN ('.$permission_ids.')';
+        $sql = 'DELETE FROM tbl_users_permissions WHERE user_id='.$uid.' AND permission_id IN ('.$permission_ids.')';
         $query = $this->db->query($sql);
         // echo $this->db->lastQuery;
         return $query;
@@ -205,7 +223,7 @@ class Common extends Model
             $count++;
         }
         // echo '<pre>';print_r($values);die;
-        $sql = 'INSERT INTO tbl_user_permissions (user_id,permission_id) VALUES '.$values.'';
+        $sql = 'INSERT INTO tbl_users_permissions (user_id,permission_id) VALUES '.$values.'';
         $query = $this->db->query($sql);
         // echo $this->db->lastQuery;
         return $query;
@@ -253,12 +271,13 @@ class Common extends Model
 
     public function checkUriPermission()
     {
+        return true;
         // echo "<pre>";print_r($_SESSION);die;
         $session = session('usersession');
-        $uri = $this->uri_segment->getSegment(2);
+        $uri = $this->uri_segment->getSegment(1);
         $permissions = $session['permissions']; 
         $all_permissions = $session['all_permissions'];
-        // echo "<pre>";var_dump($uri,$permissions,$all_permissions);die;
+        echo "<pre>";var_dump($uri,$permissions,$all_permissions);die;
         $result = false;
         foreach ($all_permissions as $key => $value) {
             if($value['routing_url']==$uri && in_array($value['id'],$permissions)){
@@ -274,11 +293,11 @@ class Common extends Model
         $sql = 'SELECT tb.* FROM tbl_permissions as tb 
         WHERE tb.id IN (
             SELECT tb.parent as id FROM (SELECT tp.* FROM tbl_permissions as tp
-            LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
+            LEFT JOIN tbl_users_permissions as tup on tup.permission_id=tp.id
             WHERE tup.user_id='.$id.' AND tp.status=1 AND tp.menu_visibility=1) as tb
             UNION
             SELECT tb.id FROM (SELECT tp.* FROM tbl_permissions as tp
-            LEFT JOIN tbl_user_permissions as tup on tup.permission_id=tp.id
+            LEFT JOIN tbl_users_permissions as tup on tup.permission_id=tp.id
             WHERE tup.user_id='.$id.' AND tp.status=1 AND tp.menu_visibility=1) as tb
             )
         ORDER BY tb.id ASC';
@@ -294,7 +313,7 @@ class Common extends Model
 
     public function getAllStudents()
     {
-        $sql = 'SELECT id,email,CONCAT(first_name," ",last_name) as name,status FROM tbl_user WHERE user_type=1';
+        $sql = 'SELECT id,email,CONCAT(first_name," ",last_name) as name,status FROM tbl_users WHERE user_type=6';
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
@@ -302,7 +321,7 @@ class Common extends Model
 
     public function getStudent($id)
     {
-        $sql = 'SELECT id,email,first_name,last_name,CONCAT(first_name," ",last_name) as student_name,status FROM tbl_user WHERE id='.$id.'';
+        $sql = 'SELECT id,email,first_name,last_name,CONCAT(first_name," ",last_name) as student_name,status FROM tbl_users WHERE id='.$id.'';
         $query = $this->db->query($sql);
         $result = $query->getRowArray();
         // echo $this->db->lastQuery;die;

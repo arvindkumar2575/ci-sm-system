@@ -76,7 +76,7 @@ class Manage extends BaseController
         $email = $this->request->getVar('email');
         $verification_code = $this->request->getVar('verification_code');
         if (isset($email) && !empty($email) && isset($verification_code) && !empty($verification_code)) {
-            $user_data = $this->common->get_single_row('tbl_user', array('email'=>$email,'verification_code'=>$verification_code), array('id','email','verification_code','verified'));
+            $user_data = $this->common->get_single_row('tbl_users', array('email'=>$email,'verification_code'=>$verification_code), array('id','email','verification_code','verified'));
             // echo '<pre>';print_r($user_data);die;
             if (isset($user_data) && !empty($user_data)) {
                 if ($user_data['verified']=='1') {
@@ -84,7 +84,7 @@ class Manage extends BaseController
                     return json_encode($result);
                 }else if($user_data['verification_code'] == $verification_code){
                     // echo '<pre>';print_r($this->request->getVar());die;
-                    $data = $this->common->data_single_update('tbl_user', array('email'=>$email), array('verified'=>1));
+                    $data = $this->common->data_single_update('tbl_users', array('email'=>$email), array('verified'=>1));
                     if ($data) {
                         $result = array('status' => true, 'message' => 'User successfully verified!');
                         return json_encode($result);

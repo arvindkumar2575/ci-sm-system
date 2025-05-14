@@ -5,6 +5,7 @@ let user = {};
 let role = {};
 let permission = {};
 let student = {};
+let assessment = {};
 let menu = {};
 let urlParams = new URLSearchParams(window.location.search);
 
@@ -307,7 +308,8 @@ user.savepermission = (f)=>{
     let ids = []
     console.log(form)
     for (const iterator of form[0]) {
-        if($(iterator).hasClass("form-check-input") && !$(iterator).hasClass("head-title") && $(iterator).is(':checked')){
+        if($(iterator).hasClass("form-check-input") && $(iterator).is(':checked')){
+            console.log(iterator)
             let v = $(iterator).val()
             ids.push(v)
         }
@@ -653,6 +655,104 @@ student.delete = (id)=>{
         }
     })
 }
+
+
+
+// assessment 
+assessment.add = ()=>{
+    let url = manageURLAPI + '/add-assessment'
+    let data = {}
+
+    let assessment_id_elm = $('input[name=id]')
+    data.id = assessment_id_elm.val()
+
+    let assessment_identifier_elm = $('input[name=identifier]')
+    data.identifier = assessment_identifier_elm.val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    let priority_elm = $('input[name=priority]')
+    data.priority = priority_elm.val()
+
+    let details_elm = $('textarea[name=details]')
+    if (details_elm.val() == "") {
+        details_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.details = JSON.stringify(details_elm.val().replace(/[\r\n\t]+/g, '').trim())
+
+    // data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/assessments'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+assessment.edit = (id)=>{
+    window.location.href = manageURL+'/edit-assessment?id='+id
+}
+
+assessment.save = ()=>{
+    let url = manageURLAPI + '/edit-assessment'
+    let data = {}
+
+    let assessment_id_elm = $('input[name=id]')
+    data.id = assessment_id_elm.val()
+
+    let assessment_identifier_elm = $('input[name=identifier]')
+    data.identifier = assessment_identifier_elm.val()
+
+    let display_name_elm = $('input[name=display_name]')
+    if (display_name_elm.val() == "") {
+        display_name_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.display_name = display_name_elm.val()
+
+    let priority_elm = $('input[name=priority]')
+    data.priority = priority_elm.val()
+
+    let details_elm = $('textarea[name=details]')
+    if (details_elm.val() == "") {
+        details_elm.addClass("field-focus-error")
+        return false;
+    }
+    data.details = details_elm.val().trim()
+    // data.details = JSON.stringify(details_elm.val().replace(/[\r\n\t]+/g, '').trim())
+
+    // data.remarks = $('textarea[name=remarks]').val()
+    data.form_type = $("input[name=form_type]").val();
+    common.ajaxCall(url, "POST", data, (res) => {
+        if (res.status && res.id != undefined && res.id != null) {
+            window.location.href = manageURL + '/assessments'
+        }
+    }, (err) => {
+        console.log(err)
+    })
+}
+assessment.delete = (id)=>{
+    let url = manageURLAPI + '/delete-assessment'
+    let data = {
+        id:id
+    }
+    common.ajaxCall(url,"POST",data,(res)=>{
+        if (res.status) {
+            window.location.href = manageURL + '/assessments'
+        }else{
+
+        }
+    })
+}
+
+
 
 
 

@@ -181,6 +181,29 @@ $(document).on("click","button.student-table-btn-delete",function (e) {
 
 
 
+// assessment
+$(document).on("submit","form#add-assessment-form",function (e) {
+    e.preventDefault()
+    assessment.add()
+});
+$(document).on("click","button.assessment-table-btn-edit",function (e) {
+    let id = $(this).data('assessment-id');
+    assessment.edit(id)
+})
+$(document).on("submit","form#edit-assessment-form",function (e) {
+    e.preventDefault()
+    assessment.save()
+});
+$(document).on("click","button.assessment-table-btn-delete",function (e) {
+    let id = $(this).data('assessment-id');
+    let val = confirm("Do you want to delete this assessment?")
+    if (val == true) {
+        assessment.delete(id)
+    }
+})
+
+
+
 
 
 $(document).on('keyup','input#name_email',function () {
